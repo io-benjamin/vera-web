@@ -22,56 +22,51 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-white text-zinc-900 antialiased">
-      {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-zinc-200 transition-all duration-500 ${mounted ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-2">
-              <span className="text-xl font-semibold tracking-tight">vera</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-orange-500" />
-            </div>
-            <div className="hidden md:flex items-center gap-8">
-              <a href="#how-it-works" className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors">How It Works</a>
-              <a href="#work" className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors">Work</a>
-              <a href="#pricing" className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors">Pricing</a>
-              <a href="#faq" className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors">FAQ</a>
-            </div>
-            <a href="#contact" className="px-4 py-2 bg-zinc-900 text-white text-sm font-medium rounded-lg hover:bg-zinc-800 transition-colors">
-              Get Started Free
-            </a>
+      {/* Navigation - Floating Pill */}
+      <nav className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ${mounted ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
+        <div className="flex items-center gap-1 px-2 py-2 bg-white/80 backdrop-blur-lg border border-zinc-200 rounded-full shadow-lg shadow-zinc-900/5">
+          <div className="flex items-center gap-2 pl-3 pr-4">
+            <span className="text-lg font-semibold tracking-tight">vera</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-orange-500" />
           </div>
+          <div className="hidden md:flex items-center gap-1">
+            <a href="#how-it-works" className="px-3 py-1.5 text-sm text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded-full transition-colors">How It Works</a>
+            <a href="#work" className="px-3 py-1.5 text-sm text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded-full transition-colors">Work</a>
+            <a href="#pricing" className="px-3 py-1.5 text-sm text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded-full transition-colors">Pricing</a>
+            <a href="#faq" className="px-3 py-1.5 text-sm text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded-full transition-colors">FAQ</a>
+          </div>
+          <a href="#contact" className="px-4 py-2 bg-zinc-900 text-white text-sm font-medium rounded-full hover:bg-zinc-800 transition-colors ml-1">
+            Get Started
+          </a>
         </div>
       </nav>
 
       {/* Hero */}
-      <section className="pt-32 pb-20 md:pt-40 md:pb-32">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="max-w-3xl">
+      <section className="pt-32 pb-24 md:pt-44 md:pb-40 hero-glow overflow-hidden">
+        <div className="max-w-6xl mx-auto px-6 relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
             <div className={`transition-all duration-700 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-orange-50 border border-orange-200 rounded-full text-sm text-orange-700 mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-orange-50 border border-orange-200 rounded-full text-sm text-orange-700 mb-8">
                 <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
                 Accepting new clients
               </div>
             </div>
             
-            <h1 className={`text-4xl sm:text-5xl md:text-6xl font-semibold leading-[1.1] tracking-tight mb-6 transition-all duration-700 delay-100 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+            <h1 className={`font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium leading-[1.1] tracking-tight mb-6 transition-all duration-700 delay-100 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
               Your website should be your best salesperson.
               <span className="text-zinc-400"> Not your worst.</span>
             </h1>
             
-            <p className={`text-lg text-zinc-600 max-w-xl mb-8 leading-relaxed transition-all duration-700 delay-200 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+            <p className={`text-lg md:text-xl text-zinc-600 max-w-2xl mx-auto mb-10 leading-relaxed transition-all duration-700 delay-200 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
               Broken links, slow pages, and poor mobile experience are costing you customers. 
               We audit, fix, and optimize your site so it actually converts.
             </p>
 
-            <div className={`flex flex-col sm:flex-row gap-3 transition-all duration-700 delay-300 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
-              <a href="#contact" className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-zinc-900 text-white font-medium rounded-lg hover:bg-zinc-800 transition-colors">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+            <div className={`flex flex-col sm:flex-row justify-center gap-3 transition-all duration-700 delay-300 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+              <a href="#contact" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-zinc-900 text-white font-medium rounded-full hover:bg-zinc-800 transition-all hover:shadow-lg hover:shadow-zinc-900/20 glow-orange-sm">
                 Get Free Audit
               </a>
-              <a href="#how-it-works" className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-zinc-300 text-zinc-700 font-medium rounded-lg hover:bg-zinc-50 transition-colors">
+              <a href="#how-it-works" className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-zinc-300 text-zinc-700 font-medium rounded-full hover:bg-zinc-50 transition-colors">
                 See How It Works
               </a>
             </div>
@@ -96,7 +91,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
             <p className="text-sm font-medium text-orange-600 mb-3">How It Works</p>
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">Fix your website in 3 simple steps</h2>
+            <h2 className="font-serif text-3xl md:text-4xl font-medium tracking-tight">Fix your website in 3 simple steps</h2>
           </div>
           
           <div className="grid md:grid-cols-3 gap-6">
@@ -150,7 +145,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
             <p className="text-sm font-medium text-orange-600 mb-3">What We Fix</p>
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">Common problems we solve every day</h2>
+            <h2 className="font-serif text-3xl md:text-4xl font-medium tracking-tight">Common problems we solve every day</h2>
           </div>
           
           <div className="flex justify-center gap-2 mb-8">
@@ -223,7 +218,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
             <p className="text-sm font-medium text-orange-600 mb-3">Our Work</p>
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">Recent projects</h2>
+            <h2 className="font-serif text-3xl md:text-4xl font-medium tracking-tight">Recent projects</h2>
           </div>
           
           <div className="grid md:grid-cols-3 gap-6">
@@ -277,7 +272,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
             <p className="text-sm font-medium text-orange-600 mb-3">Pricing</p>
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">Simple, transparent pricing</h2>
+            <h2 className="font-serif text-3xl md:text-4xl font-medium tracking-tight">Simple, transparent pricing</h2>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
@@ -313,7 +308,7 @@ export default function Home() {
         <div className="max-w-3xl mx-auto px-6">
           <div className="text-center mb-12">
             <p className="text-sm font-medium text-orange-600 mb-3">FAQ</p>
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">Frequently asked questions</h2>
+            <h2 className="font-serif text-3xl md:text-4xl font-medium tracking-tight">Frequently asked questions</h2>
           </div>
           
           <div className="space-y-3">
@@ -345,7 +340,7 @@ export default function Home() {
       {/* Contact CTA */}
       <section id="contact" className="py-20 md:py-32 bg-zinc-900 text-white">
         <div className="max-w-xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight mb-4">Ready to fix your website?</h2>
+          <h2 className="font-serif text-3xl md:text-4xl font-medium tracking-tight mb-4">Ready to fix your website?</h2>
           <p className="text-zinc-400 mb-8">Get your free audit. We will send a detailed report within 24 hours.</p>
           
           {submitted ? (
