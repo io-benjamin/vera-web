@@ -1,175 +1,310 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
   const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [website, setWebsite] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    window.location.href = `mailto:hello@tryvera.dev?subject=Website Inquiry&body=${encodeURIComponent(message)}%0A%0AFrom: ${encodeURIComponent(email)}`;
+    window.location.href = `mailto:hello@tryvera.dev?subject=Free Website Audit Request&body=Website: ${encodeURIComponent(website)}%0A%0AEmail: ${encodeURIComponent(email)}`;
     setSubmitted(true);
   };
 
   return (
-    <main className="min-h-screen bg-black text-white overflow-hidden">
-      <div className="fixed inset-0 bg-gradient-to-br from-violet-950/30 via-black to-emerald-950/20" />
-      <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-violet-600/10 via-transparent to-transparent" />
-      
-      <div className="fixed inset-0 opacity-20" style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23333' stroke-width='0.5'%3E%3Cpath d='M0 0h60v60H0z'/%3E%3C/g%3E%3C/svg%3E")`,
+    <main className="min-h-screen bg-[#0A0A0A] text-white">
+      {/* Animated gradient orbs */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-500/20 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute top-1/2 -left-40 w-80 h-80 bg-cyan-500/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute -bottom-40 right-1/3 w-72 h-72 bg-pink-500/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '2s' }} />
+      </div>
+
+      {/* Noise texture */}
+      <div className="fixed inset-0 opacity-[0.015] pointer-events-none" style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
       }} />
 
       <div className="relative z-10">
-        <nav className="container mx-auto px-6 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-violet-500 to-emerald-500 flex items-center justify-center">
-                <span className="font-black text-lg">V</span>
+        {/* Navigation */}
+        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${mounted ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
+          <div className="container mx-auto px-6 py-4">
+            <div className="flex items-center justify-between backdrop-blur-xl bg-white/[0.03] border border-white/[0.05] rounded-2xl px-6 py-3">
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-xl blur-sm opacity-70" />
+                  <div className="relative h-10 w-10 rounded-xl bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center">
+                    <span className="font-black text-lg">V</span>
+                  </div>
+                </div>
+                <span className="text-xl font-bold">vera</span>
               </div>
-              <span className="text-2xl font-bold tracking-tight">vera</span>
+              <div className="hidden md:flex items-center gap-8">
+                <a href="#services" className="text-sm text-white/60 hover:text-white transition-colors">Services</a>
+                <a href="#work" className="text-sm text-white/60 hover:text-white transition-colors">Work</a>
+                <a href="#contact" className="text-sm text-white/60 hover:text-white transition-colors">Contact</a>
+              </div>
+              <a href="#contact" className="group relative px-5 py-2.5 overflow-hidden rounded-xl">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-cyan-500 transition-transform group-hover:scale-105" />
+                <span className="relative font-semibold text-sm">Get Started</span>
+              </a>
             </div>
-            <a href="#contact" className="px-6 py-2.5 bg-white text-black font-semibold rounded-full hover:bg-white/90 transition-all hover:scale-105">
-              Get Started
-            </a>
           </div>
         </nav>
 
-        <section className="container mx-auto px-6 pt-20 pb-32">
-          <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 mb-8">
-              <span className="h-2 w-2 bg-emerald-500 rounded-full animate-pulse" />
-              <span className="text-sm text-white/70">Available for new projects</span>
-            </div>
-            
-            <h1 className="text-5xl md:text-7xl font-black leading-[1.1] mb-6">
-              We build websites that{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-400 to-emerald-400">
-                actually work
-              </span>
-            </h1>
-            
-            <p className="text-xl text-white/60 max-w-2xl mb-10 leading-relaxed">
-              Your website is broken, slow, or does not exist. We fix that. 
-              Fast, modern sites that bring in customers—not scare them away.
-            </p>
-            
-            <div className="flex flex-wrap gap-4">
-              <a href="#contact" className="px-8 py-4 bg-gradient-to-r from-violet-600 to-emerald-600 font-semibold rounded-full hover:opacity-90 transition-all hover:scale-105 flex items-center gap-2">
-                Get a Free Audit
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </a>
-              <a href="#services" className="px-8 py-4 border border-white/20 font-semibold rounded-full hover:bg-white/5 transition-all">
-                See Services
-              </a>
-            </div>
-          </div>
-        </section>
-
-        <section className="container mx-auto px-6 py-20 border-t border-white/10">
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { icon: '⚠️', title: 'Broken Links & Errors', desc: 'Visitors hit dead ends. They leave. You lose money.' },
-              { icon: '🐌', title: 'Painfully Slow', desc: 'If it takes more than 3 seconds, 50% of visitors are gone.' },
-              { icon: '📱', title: 'Does Not Work on Mobile', desc: '60% of traffic is mobile. If broken there, you are invisible.' },
-            ].map((item, i) => (
-              <div key={i} className="p-8 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-white/20 transition-all">
-                <span className="text-4xl mb-4 block">{item.icon}</span>
-                <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                <p className="text-white/50">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section id="services" className="container mx-auto px-6 py-20">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black mb-4">What We Do</h2>
-            <p className="text-white/50 text-lg">Simple. Effective. No BS.</p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {[
-              { title: 'Website Audit', price: 'Free', desc: 'We find what is broken and show you exactly how to fix it.', features: ['Broken link check', 'Speed analysis', 'Mobile testing', 'SEO basics'], highlight: true },
-              { title: 'Quick Fixes', price: 'From $150', desc: 'Small problems fixed fast. Broken links, slow pages, mobile issues.', features: ['24-48 hour turnaround', 'No contracts', 'Pay per fix', 'Ongoing support'], highlight: false },
-              { title: 'New Website', price: 'From $999', desc: 'Modern, fast, mobile-first. Built to convert visitors to customers.', features: ['Custom design', 'Mobile responsive', 'SEO optimized', 'Contact forms'], highlight: false },
-              { title: 'Monthly Care', price: '$99/mo', desc: 'We keep it running. Updates, backups, fixes—you do not think about it.', features: ['Monthly updates', 'Security patches', 'Backups', 'Priority support'], highlight: false },
-            ].map((service, i) => (
-              <div key={i} className={`p-8 rounded-2xl border transition-all hover:scale-[1.02] ${service.highlight ? 'bg-gradient-to-br from-violet-600/20 to-emerald-600/20 border-violet-500/50' : 'bg-white/[0.03] border-white/10 hover:border-white/20'}`}>
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-2xl font-bold">{service.title}</h3>
-                  <span className={`text-xl font-black ${service.highlight ? 'text-emerald-400' : 'text-white/70'}`}>{service.price}</span>
+        {/* Hero */}
+        <section className="min-h-screen flex items-center pt-32 pb-20">
+          <div className="container mx-auto px-6">
+            <div className="max-w-5xl">
+              <div className={`transition-all duration-700 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/[0.03] rounded-full border border-white/[0.08] mb-8">
+                  <div className="flex -space-x-1">
+                    <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                    <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" style={{ animationDelay: '0.2s' }} />
+                    <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" style={{ animationDelay: '0.4s' }} />
+                  </div>
+                  <span className="text-sm text-white/50">Available for projects</span>
                 </div>
-                <p className="text-white/50 mb-6">{service.desc}</p>
-                <ul className="space-y-2">
-                  {service.features.map((f, j) => (
-                    <li key={j} className="flex items-center gap-2 text-sm text-white/70">
-                      <svg className="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
               </div>
-            ))}
+              
+              <h1 className={`text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.95] mb-8 transition-all duration-700 delay-100 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+                <span className="block">Your website</span>
+                <span className="block">is losing you</span>
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400">money.</span>
+              </h1>
+              
+              <p className={`text-lg md:text-xl text-white/50 max-w-xl mb-12 leading-relaxed transition-all duration-700 delay-200 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+                Broken links. Slow load times. Terrible on mobile. 
+                We find the problems and fix them fast.
+              </p>
+
+              <div className={`flex flex-col sm:flex-row gap-4 transition-all duration-700 delay-300 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+                <a href="#contact" className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 overflow-hidden rounded-2xl">
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 transition-all group-hover:scale-105" />
+                  <div className="absolute inset-[2px] bg-[#0A0A0A] rounded-[14px] transition-opacity group-hover:opacity-0" />
+                  <span className="relative font-bold text-lg">Free Website Audit</span>
+                  <svg className="relative w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </a>
+                <a href="#services" className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl border border-white/10 font-semibold hover:bg-white/5 transition-all">
+                  View Services
+                </a>
+              </div>
+            </div>
           </div>
         </section>
 
-        <section className="container mx-auto px-6 py-20 border-t border-white/10">
-          <div className="grid md:grid-cols-4 gap-8 text-center">
-            {[
-              { value: '50+', label: 'Websites Fixed' },
-              { value: '24hr', label: 'Avg Response Time' },
-              { value: '99%', label: 'Uptime Guarantee' },
-              { value: '5★', label: 'Client Rating' },
-            ].map((stat, i) => (
-              <div key={i}>
-                <div className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-emerald-400 mb-2">{stat.value}</div>
-                <div className="text-white/50">{stat.label}</div>
-              </div>
-            ))}
+        {/* Stats bar */}
+        <section className="py-12 border-y border-white/[0.05]">
+          <div className="container mx-auto px-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              {[
+                { value: '48hr', label: 'Average Turnaround' },
+                { value: '100+', label: 'Sites Improved' },
+                { value: '3x', label: 'Speed Increase' },
+                { value: '24/7', label: 'Support' },
+              ].map((stat, i) => (
+                <div key={i} className="text-center">
+                  <div className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">{stat.value}</div>
+                  <div className="text-sm text-white/40 mt-1">{stat.label}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
-        <section id="contact" className="container mx-auto px-6 py-20">
-          <div className="max-w-2xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-5xl font-black mb-4">Let Us Fix Your Site</h2>
-              <p className="text-white/50 text-lg">Free audit. No commitment. Real results.</p>
+        {/* Problems we solve */}
+        <section className="py-24">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-16">
+              <span className="text-sm font-medium text-purple-400 tracking-wider uppercase">The Problem</span>
+              <h2 className="text-4xl md:text-5xl font-black mt-4">These issues are killing your business</h2>
             </div>
             
-            {submitted ? (
-              <div className="p-8 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center">
-                <span className="text-4xl mb-4 block">✓</span>
-                <h3 className="text-2xl font-bold mb-2">Got it!</h3>
-                <p className="text-white/70">We will be in touch within 24 hours.</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <input type="email" required placeholder="Your email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-violet-500 transition-all placeholder:text-white/30" />
-                <textarea required placeholder="Tell us about your website (URL, issues, what you need)" value={message} onChange={(e) => setMessage(e.target.value)} rows={4} className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-violet-500 transition-all placeholder:text-white/30 resize-none" />
-                <button type="submit" className="w-full py-4 bg-gradient-to-r from-violet-600 to-emerald-600 font-bold rounded-xl hover:opacity-90 transition-all hover:scale-[1.02]">Get Free Audit →</button>
-                <p className="text-center text-white/30 text-sm">No spam. No commitment. Just help.</p>
-              </form>
-            )}
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                { 
+                  icon: '💀', 
+                  title: 'Broken & Outdated', 
+                  desc: 'Dead links, missing images, and outdated info make visitors bounce instantly.',
+                  color: 'from-red-500/20 to-orange-500/20',
+                  border: 'border-red-500/20'
+                },
+                { 
+                  icon: '🐢', 
+                  title: 'Painfully Slow', 
+                  desc: 'Every second of load time costs you 7% in conversions. Most sites are way too slow.',
+                  color: 'from-yellow-500/20 to-amber-500/20',
+                  border: 'border-yellow-500/20'
+                },
+                { 
+                  icon: '📱', 
+                  title: 'Mobile Disaster', 
+                  desc: '60% of your traffic is mobile. If your site is broken on phones, you are invisible.',
+                  color: 'from-blue-500/20 to-cyan-500/20',
+                  border: 'border-blue-500/20'
+                },
+              ].map((item, i) => (
+                <div key={i} className={`group p-8 rounded-3xl bg-gradient-to-br ${item.color} border ${item.border} hover:scale-[1.02] transition-all duration-300`}>
+                  <span className="text-5xl block mb-6">{item.icon}</span>
+                  <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
+                  <p className="text-white/50 leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
-        <footer className="container mx-auto px-6 py-12 border-t border-white/10">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-violet-500 to-emerald-500 flex items-center justify-center">
-                <span className="font-black text-sm">V</span>
-              </div>
-              <span className="text-lg font-bold">vera</span>
+        {/* Services */}
+        <section id="services" className="py-24 bg-gradient-to-b from-transparent via-purple-500/[0.03] to-transparent">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-16">
+              <span className="text-sm font-medium text-cyan-400 tracking-wider uppercase">Services</span>
+              <h2 className="text-4xl md:text-5xl font-black mt-4">Simple pricing. Real results.</h2>
             </div>
-            <p className="text-white/30 text-sm">© 2026 Vera. Making the web work.</p>
-            <a href="mailto:hello@tryvera.dev" className="text-white/50 hover:text-white transition-all">hello@tryvera.dev</a>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+              {[
+                { 
+                  title: 'Free Audit', 
+                  price: '$0', 
+                  desc: 'We analyze your site and show you exactly what needs fixing.',
+                  features: ['Full site scan', 'Speed test', 'Mobile check', 'SEO review'],
+                  cta: 'Get Started',
+                  featured: true
+                },
+                { 
+                  title: 'Quick Fix', 
+                  price: '$150+', 
+                  desc: 'Small problems fixed fast. Pay per issue.',
+                  features: ['48hr turnaround', 'Broken links', 'Speed fixes', 'Bug repairs'],
+                  cta: 'Learn More',
+                  featured: false
+                },
+                { 
+                  title: 'New Build', 
+                  price: '$999+', 
+                  desc: 'Modern website built from scratch.',
+                  features: ['Custom design', 'Mobile-first', 'SEO ready', 'Fast hosting'],
+                  cta: 'Learn More',
+                  featured: false
+                },
+                { 
+                  title: 'Monthly', 
+                  price: '$99/mo', 
+                  desc: 'We handle everything. You relax.',
+                  features: ['Updates', 'Backups', 'Security', 'Priority support'],
+                  cta: 'Learn More',
+                  featured: false
+                },
+              ].map((service, i) => (
+                <div key={i} className={`relative p-6 rounded-3xl border transition-all hover:scale-[1.02] ${service.featured ? 'bg-gradient-to-br from-purple-500/10 to-cyan-500/10 border-purple-500/30' : 'bg-white/[0.02] border-white/[0.05] hover:border-white/10'}`}>
+                  {service.featured && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full text-xs font-bold">
+                      Most Popular
+                    </div>
+                  )}
+                  <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 mb-1">{service.price}</div>
+                  <h3 className="text-xl font-bold mb-2">{service.title}</h3>
+                  <p className="text-white/40 text-sm mb-6">{service.desc}</p>
+                  <ul className="space-y-2 mb-6">
+                    {service.features.map((f, j) => (
+                      <li key={j} className="flex items-center gap-2 text-sm text-white/60">
+                        <svg className="w-4 h-4 text-cyan-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <a href="#contact" className={`block text-center py-3 rounded-xl font-semibold transition-all ${service.featured ? 'bg-gradient-to-r from-purple-500 to-cyan-500 hover:opacity-90' : 'bg-white/5 hover:bg-white/10'}`}>
+                    {service.cta}
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA / Contact */}
+        <section id="contact" className="py-24">
+          <div className="container mx-auto px-6">
+            <div className="max-w-2xl mx-auto">
+              <div className="relative p-8 md:p-12 rounded-[2rem] overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-pink-500/10 to-cyan-500/20" />
+                <div className="absolute inset-[1px] bg-[#0A0A0A] rounded-[calc(2rem-1px)]" />
+                
+                <div className="relative">
+                  <div className="text-center mb-10">
+                    <h2 className="text-3xl md:text-4xl font-black mb-4">Get your free audit</h2>
+                    <p className="text-white/50">Enter your website and we will send you a full report within 24 hours.</p>
+                  </div>
+                  
+                  {submitted ? (
+                    <div className="text-center py-8">
+                      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 mb-4">
+                        <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <h3 className="text-2xl font-bold mb-2">Request received!</h3>
+                      <p className="text-white/50">We will be in touch within 24 hours.</p>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                      <div>
+                        <input
+                          type="url"
+                          required
+                          placeholder="Your website URL"
+                          value={website}
+                          onChange={(e) => setWebsite(e.target.value)}
+                          className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-purple-500/50 transition-colors placeholder:text-white/30"
+                        />
+                      </div>
+                      <div>
+                        <input
+                          type="email"
+                          required
+                          placeholder="Your email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-purple-500/50 transition-colors placeholder:text-white/30"
+                        />
+                      </div>
+                      <button type="submit" className="w-full py-4 bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 font-bold rounded-xl hover:opacity-90 transition-opacity">
+                        Send Me My Free Audit →
+                      </button>
+                      <p className="text-center text-white/30 text-sm">No spam. No obligations. Just insights.</p>
+                    </form>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="py-12 border-t border-white/[0.05]">
+          <div className="container mx-auto px-6">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+              <div className="flex items-center gap-3">
+                <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center">
+                  <span className="font-black text-sm">V</span>
+                </div>
+                <span className="font-bold">vera</span>
+              </div>
+              <p className="text-white/30 text-sm">© 2026 Vera. Making websites work.</p>
+              <a href="mailto:hello@tryvera.dev" className="text-white/50 hover:text-white transition-colors">hello@tryvera.dev</a>
+            </div>
           </div>
         </footer>
       </div>
