@@ -14,7 +14,7 @@ export default function Home() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    window.location.href = `mailto:hello@tryvera.dev?subject=Free Website Audit Request&body=Website: ${encodeURIComponent(website)}%0A%0AEmail: ${encodeURIComponent(email)}`;
+    window.open(`https://mail.google.com/mail/?view=cm&to=hello@tryvera.dev&su=${encodeURIComponent('Free Website Audit Request')}&body=${encodeURIComponent(`Website: ${website}\n\nEmail: ${email}`)}`, '_blank');
     setSubmitted(true);
   };
 
@@ -366,7 +366,7 @@ export default function Home() {
                 <span className="font-bold">vera</span>
               </div>
               <p className="text-white/30 text-sm">© 2026 Vera. Making websites work.</p>
-              <a href="mailto:hello@tryvera.dev" className="text-white/50 hover:text-white transition-colors">hello@tryvera.dev</a>
+              <a href="https://mail.google.com/mail/?view=cm&to=hello@tryvera.dev" className="text-white/50 hover:text-white transition-colors">hello@tryvera.dev</a>
             </div>
           </div>
         </footer>
