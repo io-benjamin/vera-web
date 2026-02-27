@@ -163,6 +163,69 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Portfolio / Work */}
+        <section id="work" className="py-24">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-16">
+              <span className="text-sm font-medium text-pink-400 tracking-wider uppercase">Our Work</span>
+              <h2 className="text-4xl md:text-5xl font-black mt-4">Sites we have built</h2>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {[
+                { 
+                  name: 'Financially Cooked',
+                  url: 'financiallycooked.com',
+                  desc: 'Viral financial calculator with 1000+ users. Modern dark theme with animations.',
+                  tags: ['Web App', 'React', 'Supabase'],
+                  color: 'from-orange-500/20 to-red-500/20',
+                  border: 'border-orange-500/20'
+                },
+                { 
+                  name: 'RVA Tacontigo',
+                  url: 'rvatacontigo.com',
+                  desc: 'Local food truck website. Mobile-first design for on-the-go customers.',
+                  tags: ['Small Business', 'Mobile', 'Local SEO'],
+                  color: 'from-green-500/20 to-emerald-500/20',
+                  border: 'border-green-500/20'
+                },
+                { 
+                  name: 'NIMPRO Electrical',
+                  url: 'nimproelectrical.com',
+                  desc: 'Professional contractor site. Clean design that builds trust and converts.',
+                  tags: ['Contractor', 'Lead Gen', 'Professional'],
+                  color: 'from-blue-500/20 to-indigo-500/20',
+                  border: 'border-blue-500/20'
+                },
+              ].map((project, i) => (
+                <a 
+                  key={i} 
+                  href={`https://${project.url}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`group p-6 rounded-3xl bg-gradient-to-br ${project.color} border ${project.border} hover:scale-[1.02] transition-all duration-300`}
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-xl font-bold">{project.name}</h3>
+                    <svg className="w-5 h-5 text-white/30 group-hover:text-white/70 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </div>
+                  <p className="text-white/50 text-sm mb-4">{project.desc}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {project.tags.map((tag, j) => (
+                      <span key={j} className="px-2 py-1 bg-white/5 rounded-lg text-xs text-white/40">{tag}</span>
+                    ))}
+                  </div>
+                  <div className="mt-4 pt-4 border-t border-white/5">
+                    <span className="text-sm text-white/30">{project.url}</span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Services */}
         <section id="services" className="py-24 bg-gradient-to-b from-transparent via-purple-500/[0.03] to-transparent">
           <div className="container mx-auto px-6">
