@@ -3,16 +3,24 @@
 import { useState, useEffect, useRef } from 'react';
 import { submitAuditRequest } from '../lib/supabase';
 
-// Generate random dots for background
-const generateDots = (count: number) => {
-  return Array.from({ length: count }, (_, i) => ({
-    id: i,
-    left: Math.random() * 100,
-    top: Math.random() * 100,
-    delay: Math.random() * 4,
-    duration: 3 + Math.random() * 2,
-  }));
-};
+// Simulated audit steps for the hero animation
+const auditSteps = [
+  { text: 'Connecting to site...', delay: 0 },
+  { text: 'Analyzing page structure', delay: 800 },
+  { text: 'Checking load performance', delay: 1600 },
+  { text: 'Scanning for broken links', delay: 2400 },
+  { text: 'Testing mobile responsiveness', delay: 3200 },
+  { text: 'Reviewing SEO elements', delay: 4000 },
+  { text: 'Checking security headers', delay: 4800 },
+  { text: 'Generating report...', delay: 5600 },
+];
+
+const findings = [
+  { type: 'critical', text: 'Missing meta description' },
+  { type: 'warning', text: 'Images lack alt text (3)' },
+  { type: 'warning', text: 'No Open Graph image' },
+  { type: 'info', text: 'Consider adding structured data' },
+];
 
 export default function Home() {
   const [email, setEmail] = useState('');
@@ -20,18 +28,65 @@ export default function Home() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [dots] = useState(() => generateDots(20));
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [currentStep, setCurrentStep] = useState(0);
+  const [showFindings, setShowFindings] = useState(false);
+  const [visibleFindings, setVisibleFindings] = useState(0);
+  const terminalRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     setMounted(true);
     
-    const handleMouse = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
-    };
+    // Run the terminal animation
+    const stepTimers: NodeJS.Timeout[] = [];
+    auditSteps.forEach((step, i) => {
+      stepTimers.push(setTimeout(() => {
+        setCurrentStep(i + 1);
+        if (terminalRef.current) {
+          terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+        }
+      }, step.delay + 1000));
+    });
     
-    window.addEventListener('mousemove', handleMouse);
-    return () => window.removeEventListener('mousemove', handleMouse);
+    // Show findings after steps complete
+    const findingsTimer = setTimeout(() => {
+      setShowFindings(true);
+      findings.forEach((_, i) => {
+        setTimeout(() => setVisibleFindings(i + 1), i * 300);
+      });
+    }, 7000);
+    
+    // Reset and loop
+    const resetTimer = setTimeout(() => {
+      setCurrentStep(0);
+      setShowFindings(false);
+      setVisibleFindings(0);
+    }, 12000);
+    
+    const loopInterval = setInterval(() => {
+      setCurrentStep(0);
+      setShowFindings(false);
+      setVisibleFindings(0);
+      
+      auditSteps.forEach((step, i) => {
+        setTimeout(() => {
+          setCurrentStep(i + 1);
+        }, step.delay + 1000);
+      });
+      
+      setTimeout(() => {
+        setShowFindings(true);
+        findings.forEach((_, i) => {
+          setTimeout(() => setVisibleFindings(i + 1), i * 300);
+        });
+      }, 7000);
+    }, 12000);
+    
+    return () => {
+      stepTimers.forEach(clearTimeout);
+      clearTimeout(findingsTimer);
+      clearTimeout(resetTimer);
+      clearInterval(loopInterval);
+    };
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -50,185 +105,215 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen relative overflow-hidden">
-      {/* Animated background elements */}
-      <div className="grid-bg" />
-      <div className="noise" />
+    <main className="min-h-screen bg-[#0a0a0a] text-white overflow-hidden">
+      {/* Scan lines overlay */}
+      <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03]" style={{
+        backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px)',
+      }} />
       
-      {/* Floating gradient shapes */}
+      {/* Grid background */}
+      <div className="fixed inset-0 opacity-[0.02]" style={{
+        backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+        backgroundSize: '50px 50px',
+      }} />
+
+      {/* Gradient orbs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div 
-          className="floating-shape shape-1"
-          style={{
-            transform: `translate(${mousePos.x * 0.02}px, ${mousePos.y * 0.02}px)`,
-          }}
-        />
-        <div 
-          className="floating-shape shape-2"
-          style={{
-            transform: `translate(${mousePos.x * -0.015}px, ${mousePos.y * -0.015}px)`,
-          }}
-        />
-        <div 
-          className="floating-shape shape-3"
-          style={{
-            transform: `translate(${mousePos.x * 0.01}px, ${mousePos.y * 0.01}px)`,
-          }}
-        />
-      </div>
-      
-      {/* Animated dots */}
-      <div className="dot-field">
-        {dots.map(dot => (
-          <div
-            key={dot.id}
-            className="dot"
-            style={{
-              left: `${dot.left}%`,
-              top: `${dot.top}%`,
-              animationDelay: `${dot.delay}s`,
-              animationDuration: `${dot.duration}s`,
-            }}
-          />
-        ))}
+        <div className="absolute -top-1/2 -right-1/2 w-full h-full bg-gradient-to-br from-emerald-500/10 via-transparent to-transparent rounded-full blur-3xl" />
+        <div className="absolute -bottom-1/2 -left-1/2 w-full h-full bg-gradient-to-tr from-orange-500/10 via-transparent to-transparent rounded-full blur-3xl" />
       </div>
 
       {/* Content */}
       <div className="relative z-10">
         {/* Nav */}
-        <nav className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
-          <div className="flex items-center gap-2 px-6 py-3 bg-white/70 backdrop-blur-xl rounded-full border border-black/5 shadow-lg shadow-black/5">
-            <div className="flex items-center gap-2 pr-4 border-r border-black/10">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#ff6b35] to-[#ff8f65] flex items-center justify-center">
-                <span className="text-white font-bold text-sm">V</span>
+        <nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-700 ${mounted ? 'opacity-100' : 'opacity-0'}`}>
+          <div className="max-w-6xl mx-auto px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-emerald-500/50 blur-lg" />
+                  <div className="relative w-10 h-10 bg-emerald-500 rounded-lg flex items-center justify-center font-mono font-bold">
+                    V
+                  </div>
+                </div>
+                <span className="font-semibold tracking-tight">vera</span>
+                <span className="text-xs text-white/30 font-mono">AI</span>
               </div>
-              <span className="font-semibold text-sm">vera</span>
+              <div className="hidden md:flex items-center gap-6">
+                <a href="#how" className="text-sm text-white/50 hover:text-white transition-colors">How it works</a>
+                <a href="#pricing" className="text-sm text-white/50 hover:text-white transition-colors">Pricing</a>
+              </div>
+              <a href="#audit" className="px-5 py-2.5 bg-emerald-500 text-black text-sm font-semibold rounded-lg hover:bg-emerald-400 transition-colors">
+                Free Audit
+              </a>
             </div>
-            <div className="hidden md:flex items-center">
-              <a href="#work" className="px-4 py-2 text-sm text-black/50 hover:text-black transition-colors">Work</a>
-              <a href="#pricing" className="px-4 py-2 text-sm text-black/50 hover:text-black transition-colors">Pricing</a>
-            </div>
-            <a href="#contact" className="ml-2 px-5 py-2 bg-black text-white text-sm font-medium rounded-full hover:bg-black/80 transition-colors">
-              Free Audit
-            </a>
           </div>
         </nav>
 
         {/* Hero */}
-        <section className="min-h-screen flex items-center justify-center px-6">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className={`transition-all duration-700 delay-100 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#fff4f0] rounded-full mb-8">
-                <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
-                <span className="text-sm font-medium text-[#ff6b35]">Now accepting clients</span>
+        <section className="min-h-screen flex items-center pt-20 pb-32 px-6">
+          <div className="max-w-6xl mx-auto w-full">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              {/* Left - Copy */}
+              <div className={`transition-all duration-700 delay-200 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full mb-6">
+                  <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                  <span className="text-xs font-medium text-emerald-400">AI-Powered Analysis</span>
+                </div>
+                
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] mb-6">
+                  Your site has
+                  <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
+                    problems.
+                  </span>
+                </h1>
+                
+                <p className="text-lg text-white/50 mb-8 max-w-md leading-relaxed">
+                  Our AI scans your website in seconds. Finds the issues killing your conversions. Tells you exactly how to fix them.
+                </p>
+                
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <a href="#audit" className="inline-flex items-center justify-center gap-2 px-6 py-4 bg-emerald-500 text-black font-semibold rounded-xl hover:bg-emerald-400 transition-all group">
+                    Scan Your Site Free
+                    <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </a>
+                  <a href="#how" className="inline-flex items-center justify-center gap-2 px-6 py-4 border border-white/10 text-white/70 font-medium rounded-xl hover:bg-white/5 transition-colors">
+                    See how it works
+                  </a>
+                </div>
               </div>
-            </div>
-            
-            <h1 className={`text-5xl md:text-7xl lg:text-8xl font-bold leading-[1.05] tracking-tight mb-8 transition-all duration-700 delay-200 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-              Websites that
-              <br />
-              <span className="relative">
-                actually
-                <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none">
-                  <path d="M2 10C50 4 150 4 198 10" stroke="#ff6b35" strokeWidth="4" strokeLinecap="round" className="animate-draw" />
-                </svg>
-              </span>
-              {' '}work.
-            </h1>
-            
-            <p className={`text-lg md:text-xl text-black/50 max-w-lg mx-auto mb-12 leading-relaxed transition-all duration-700 delay-300 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-              Slow loads. Broken links. Mobile nightmares.
-              <br />
-              We fix what is costing you customers.
-            </p>
-            
-            <div className={`flex flex-col sm:flex-row gap-4 justify-center transition-all duration-700 delay-400 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-              <a href="#contact" className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-black text-white font-semibold rounded-2xl hover:bg-black/80 transition-all hover:gap-4">
-                Get Your Free Audit
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </a>
+              
+              {/* Right - Live Terminal */}
+              <div className={`transition-all duration-700 delay-400 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                <div className="relative">
+                  {/* Glow effect */}
+                  <div className="absolute -inset-4 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-3xl blur-2xl opacity-50" />
+                  
+                  {/* Terminal window */}
+                  <div className="relative bg-[#111] border border-white/10 rounded-2xl overflow-hidden">
+                    {/* Terminal header */}
+                    <div className="flex items-center gap-2 px-4 py-3 bg-white/5 border-b border-white/5">
+                      <div className="flex gap-1.5">
+                        <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                        <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                        <div className="w-3 h-3 rounded-full bg-green-500/80" />
+                      </div>
+                      <span className="text-xs text-white/30 font-mono ml-2">vera-audit — example.com</span>
+                    </div>
+                    
+                    {/* Terminal content */}
+                    <div ref={terminalRef} className="p-4 font-mono text-sm h-80 overflow-y-auto scrollbar-hide">
+                      <div className="text-white/30 mb-4">$ vera scan https://example.com</div>
+                      
+                      {auditSteps.slice(0, currentStep).map((step, i) => (
+                        <div key={i} className="flex items-center gap-2 mb-2 animate-fadeIn">
+                          <span className="text-emerald-400">›</span>
+                          <span className="text-white/70">{step.text}</span>
+                          {i < currentStep - 1 && <span className="text-emerald-400">✓</span>}
+                          {i === currentStep - 1 && !showFindings && (
+                            <span className="inline-block w-2 h-4 bg-emerald-400 animate-pulse" />
+                          )}
+                        </div>
+                      ))}
+                      
+                      {showFindings && (
+                        <div className="mt-6 pt-4 border-t border-white/10">
+                          <div className="text-white/50 mb-3">Found {findings.length} issues:</div>
+                          {findings.slice(0, visibleFindings).map((finding, i) => (
+                            <div key={i} className="flex items-center gap-2 mb-2 animate-fadeIn">
+                              <span className={`w-2 h-2 rounded-full ${
+                                finding.type === 'critical' ? 'bg-red-500' :
+                                finding.type === 'warning' ? 'bg-yellow-500' : 'bg-blue-500'
+                              }`} />
+                              <span className={`${
+                                finding.type === 'critical' ? 'text-red-400' :
+                                finding.type === 'warning' ? 'text-yellow-400' : 'text-blue-400'
+                              }`}>{finding.text}</span>
+                            </div>
+                          ))}
+                          {visibleFindings >= findings.length && (
+                            <div className="mt-4 text-emerald-400 animate-fadeIn">
+                              ✓ Report ready — Score: 67/100
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Problem Statement */}
-        <section className="py-32 px-6">
+        {/* How it works */}
+        <section id="how" className="py-32 px-6">
           <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-16">
+              <span className="text-sm font-medium text-emerald-400">How It Works</span>
+              <h2 className="text-4xl md:text-5xl font-bold mt-4">AI does the work.</h2>
+            </div>
+            
             <div className="grid md:grid-cols-3 gap-8">
               {[
-                { 
-                  num: '7%',
-                  title: 'lost per second',
-                  desc: 'Every extra second of load time costs you conversions. Speed matters.',
+                {
+                  num: '01',
+                  title: 'Drop your URL',
+                  desc: 'Enter your website. Our AI starts scanning immediately.',
+                  icon: '🔗',
                 },
-                { 
-                  num: '60%',
-                  title: 'are on mobile',
-                  desc: 'If your site breaks on phones, most visitors never see it properly.',
+                {
+                  num: '02', 
+                  title: 'AI analyzes everything',
+                  desc: 'Speed, SEO, security, mobile, accessibility — all checked in seconds.',
+                  icon: '🤖',
                 },
-                { 
-                  num: '88%',
-                  title: 'wont return',
-                  desc: 'Users who have a bad experience rarely give you a second chance.',
+                {
+                  num: '03',
+                  title: 'Get actionable report',
+                  desc: 'Prioritized issues with exact steps to fix. No fluff.',
+                  icon: '📋',
                 },
-              ].map((stat, i) => (
-                <div key={i} className="group p-8 rounded-3xl bg-white border border-black/5 hover:border-[#ff6b35]/20 hover:shadow-xl hover:shadow-[#ff6b35]/5 transition-all duration-300">
-                  <div className="text-5xl font-bold text-[#ff6b35] mb-2">{stat.num}</div>
-                  <div className="text-lg font-semibold mb-3">{stat.title}</div>
-                  <p className="text-black/50 leading-relaxed">{stat.desc}</p>
+              ].map((step, i) => (
+                <div key={i} className="relative p-8 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-emerald-500/30 transition-colors group">
+                  <span className="absolute -top-3 -left-3 w-8 h-8 bg-emerald-500 text-black text-xs font-bold rounded-lg flex items-center justify-center">
+                    {step.num}
+                  </span>
+                  <span className="text-4xl mb-4 block">{step.icon}</span>
+                  <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
+                  <p className="text-white/50">{step.desc}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Work */}
-        <section id="work" className="py-32 px-6 bg-white">
+        {/* What we check */}
+        <section className="py-32 px-6 bg-gradient-to-b from-transparent via-emerald-500/[0.02] to-transparent">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-16">
-              <span className="text-sm font-medium text-[#ff6b35] tracking-wide uppercase">Our Work</span>
-              <h2 className="text-4xl md:text-5xl font-bold mt-4">Built different.</h2>
+              <span className="text-sm font-medium text-emerald-400">What We Scan</span>
+              <h2 className="text-4xl md:text-5xl font-bold mt-4">Deep analysis.</h2>
             </div>
             
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
-                { 
-                  name: 'Financially Cooked',
-                  url: 'financiallycooked.com',
-                  desc: 'Viral calculator app. 1000+ users in first week.',
-                  gradient: 'from-orange-500 to-red-500',
-                },
-                { 
-                  name: 'RVA Tacontigo',
-                  url: 'rvatacontigo.com',
-                  desc: 'Food truck site. Mobile-first, lightning fast.',
-                  gradient: 'from-green-500 to-emerald-500',
-                },
-                { 
-                  name: 'NIMPRO Electrical',
-                  url: 'nimproelectrical.com',
-                  desc: 'Contractor site. Professional, converts leads.',
-                  gradient: 'from-blue-500 to-indigo-500',
-                },
-              ].map((project, i) => (
-                <a 
-                  key={i} 
-                  href={`https://${project.url}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block"
-                >
-                  <div className={`aspect-[4/3] rounded-2xl bg-gradient-to-br ${project.gradient} mb-4 flex items-center justify-center overflow-hidden relative`}>
-                    <span className="text-white/20 text-6xl font-bold group-hover:scale-110 transition-transform duration-300">{project.name[0]}</span>
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                      <span className="text-white font-medium opacity-0 group-hover:opacity-100 transition-opacity">View Site →</span>
-                    </div>
-                  </div>
-                  <h3 className="font-semibold mb-1">{project.name}</h3>
-                  <p className="text-black/50 text-sm">{project.desc}</p>
-                </a>
+                { label: 'Page Speed', icon: '⚡' },
+                { label: 'Mobile UX', icon: '📱' },
+                { label: 'SEO', icon: '🔍' },
+                { label: 'Security', icon: '🔒' },
+                { label: 'Accessibility', icon: '♿' },
+                { label: 'Broken Links', icon: '🔗' },
+                { label: 'Meta Tags', icon: '🏷️' },
+                { label: 'Images', icon: '🖼️' },
+              ].map((item, i) => (
+                <div key={i} className="p-4 rounded-xl bg-white/[0.02] border border-white/5 text-center hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all">
+                  <span className="text-2xl mb-2 block">{item.icon}</span>
+                  <span className="text-sm text-white/70">{item.label}</span>
+                </div>
               ))}
             </div>
           </div>
@@ -238,99 +323,99 @@ export default function Home() {
         <section id="pricing" className="py-32 px-6">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-16">
-              <span className="text-sm font-medium text-[#ff6b35] tracking-wide uppercase">Pricing</span>
-              <h2 className="text-4xl md:text-5xl font-bold mt-4">No surprises.</h2>
-              <p className="text-black/50 mt-4 max-w-md mx-auto">Fixed prices. Clear scope. You know what you pay before we start.</p>
+              <span className="text-sm font-medium text-emerald-400">Pricing</span>
+              <h2 className="text-4xl md:text-5xl font-bold mt-4">Fix it yourself, or we fix it.</h2>
             </div>
             
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
               {[
-                { 
-                  title: 'Audit', 
-                  price: 'Free', 
-                  desc: 'Full analysis of your site',
-                  features: ['Speed test', 'Mobile check', 'SEO review', 'Action plan'],
-                  highlight: true,
+                {
+                  title: 'AI Audit',
+                  price: 'Free',
+                  desc: 'See what\'s broken',
+                  features: ['Full site scan', 'Prioritized issues', 'Fix instructions', 'PDF report'],
+                  cta: 'Get Free Audit',
+                  highlighted: true,
                 },
-                { 
-                  title: 'Quick Fix', 
-                  price: '$199+', 
-                  desc: 'Per-issue pricing',
-                  features: ['48hr turnaround', 'Bug fixes', 'Speed optimization', 'Content updates'],
-                  highlight: false,
+                {
+                  title: 'We Fix It',
+                  price: '$199+',
+                  desc: 'Per issue',
+                  features: ['48hr turnaround', 'Done for you', 'Tested & verified', 'Support included'],
+                  cta: 'Get Quote',
+                  highlighted: false,
                 },
-                { 
-                  title: 'New Build', 
-                  price: '$2,500+', 
-                  desc: 'Website from scratch',
-                  features: ['Custom design', 'Mobile-first', 'SEO ready', 'CMS included'],
-                  highlight: false,
-                },
-                { 
-                  title: 'Monthly', 
-                  price: '$149/mo', 
-                  desc: 'Ongoing maintenance',
-                  features: ['Updates & fixes', 'Daily backups', 'Security monitoring', 'Priority support'],
-                  highlight: false,
+                {
+                  title: 'Full Rebuild',
+                  price: '$2,500+',
+                  desc: 'New website',
+                  features: ['Custom design', 'Mobile-first', 'SEO optimized', 'Fast hosting'],
+                  cta: 'Get Quote',
+                  highlighted: false,
                 },
               ].map((plan, i) => (
-                <div 
-                  key={i} 
-                  className={`p-6 rounded-3xl transition-all ${
-                    plan.highlight 
-                      ? 'bg-black text-white' 
-                      : 'bg-white border border-black/5 hover:border-black/10'
-                  }`}
-                >
-                  {plan.highlight && (
-                    <span className="inline-block px-3 py-1 bg-[#ff6b35] text-white text-xs font-medium rounded-full mb-4">Start Here</span>
-                  )}
-                  <div className={`text-3xl font-bold mb-1 ${plan.highlight ? 'text-white' : 'text-black'}`}>{plan.price}</div>
-                  <div className={`font-medium mb-2 ${plan.highlight ? 'text-white' : 'text-black'}`}>{plan.title}</div>
-                  <p className={`text-sm mb-6 ${plan.highlight ? 'text-white/60' : 'text-black/50'}`}>{plan.desc}</p>
-                  <ul className="space-y-2">
+                <div key={i} className={`p-8 rounded-2xl border transition-all ${
+                  plan.highlighted 
+                    ? 'bg-emerald-500 text-black border-emerald-400' 
+                    : 'bg-white/[0.02] border-white/5 hover:border-white/10'
+                }`}>
+                  <div className={`text-3xl font-bold mb-1 ${plan.highlighted ? 'text-black' : 'text-white'}`}>
+                    {plan.price}
+                  </div>
+                  <div className={`font-medium mb-1 ${plan.highlighted ? 'text-black' : 'text-white'}`}>
+                    {plan.title}
+                  </div>
+                  <div className={`text-sm mb-6 ${plan.highlighted ? 'text-black/60' : 'text-white/40'}`}>
+                    {plan.desc}
+                  </div>
+                  <ul className="space-y-2 mb-6">
                     {plan.features.map((f, j) => (
-                      <li key={j} className={`flex items-center gap-2 text-sm ${plan.highlight ? 'text-white/80' : 'text-black/60'}`}>
-                        <svg className={`w-4 h-4 flex-shrink-0 ${plan.highlight ? 'text-[#ff6b35]' : 'text-[#ff6b35]'}`} fill="currentColor" viewBox="0 0 20 20">
+                      <li key={j} className={`flex items-center gap-2 text-sm ${plan.highlighted ? 'text-black/80' : 'text-white/60'}`}>
+                        <svg className={`w-4 h-4 ${plan.highlighted ? 'text-black' : 'text-emerald-400'}`} fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
                         {f}
                       </li>
                     ))}
                   </ul>
+                  <a href="#audit" className={`block text-center py-3 rounded-xl font-semibold transition-all ${
+                    plan.highlighted 
+                      ? 'bg-black text-white hover:bg-black/80' 
+                      : 'bg-white/5 hover:bg-white/10'
+                  }`}>
+                    {plan.cta}
+                  </a>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Contact */}
-        <section id="contact" className="py-32 px-6 bg-white">
-          <div className="max-w-xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-5xl font-bold">Get your free audit.</h2>
-              <p className="text-black/50 mt-4">Drop your URL. We will send a full report within 24 hours.</p>
+        {/* CTA / Audit Form */}
+        <section id="audit" className="py-32 px-6">
+          <div className="max-w-xl mx-auto text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl mb-8">
+              <span className="text-3xl">🔍</span>
             </div>
             
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Ready to find out?</h2>
+            <p className="text-white/50 mb-8">Drop your URL. Get your free AI audit in 24 hours.</p>
+            
             {submitted ? (
-              <div className="text-center py-12">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 mb-6">
-                  <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <h3 className="text-2xl font-bold mb-2">You are in!</h3>
-                <p className="text-black/50">Check your inbox in the next 24 hours.</p>
+              <div className="p-8 rounded-2xl bg-emerald-500/10 border border-emerald-500/20">
+                <div className="text-emerald-400 text-5xl mb-4">✓</div>
+                <h3 className="text-2xl font-bold mb-2">Scanning started!</h3>
+                <p className="text-white/50">Check your inbox in the next 24 hours.</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-3">
                 <input
                   type="url"
                   required
                   placeholder="https://yourwebsite.com"
                   value={website}
                   onChange={(e) => setWebsite(e.target.value)}
-                  className="w-full px-6 py-4 bg-[#fafafa] border border-black/10 rounded-2xl focus:outline-none focus:border-[#ff6b35] focus:ring-2 focus:ring-[#ff6b35]/10 transition-all"
+                  className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-emerald-500 transition-colors placeholder:text-white/30"
                 />
                 <input
                   type="email"
@@ -338,45 +423,48 @@ export default function Home() {
                   placeholder="you@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-6 py-4 bg-[#fafafa] border border-black/10 rounded-2xl focus:outline-none focus:border-[#ff6b35] focus:ring-2 focus:ring-[#ff6b35]/10 transition-all"
+                  className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-emerald-500 transition-colors placeholder:text-white/30"
                 />
                 <button 
                   type="submit"
                   disabled={submitting}
-                  className="w-full py-4 bg-black text-white font-semibold rounded-2xl hover:bg-black/80 transition-colors disabled:opacity-50"
+                  className="w-full py-4 bg-emerald-500 text-black font-bold rounded-xl hover:bg-emerald-400 transition-colors disabled:opacity-50"
                 >
-                  {submitting ? 'Sending...' : 'Send My Free Audit'}
+                  {submitting ? 'Starting scan...' : 'Scan My Site Free →'}
                 </button>
-                <p className="text-center text-black/30 text-sm">No spam. No sales calls. Just a report.</p>
+                <p className="text-white/30 text-sm">No credit card. No spam. Just insights.</p>
               </form>
             )}
           </div>
         </section>
 
         {/* Footer */}
-        <footer className="py-12 px-6 border-t border-black/5">
+        <footer className="py-8 px-6 border-t border-white/5">
           <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-md bg-gradient-to-br from-[#ff6b35] to-[#ff8f65] flex items-center justify-center">
-                <span className="text-white font-bold text-xs">V</span>
-              </div>
+              <div className="w-6 h-6 bg-emerald-500 rounded flex items-center justify-center font-mono text-black text-xs font-bold">V</div>
               <span className="font-medium text-sm">vera</span>
             </div>
-            <p className="text-black/30 text-sm">© 2026 Vera. Websites that work.</p>
-            <a href="mailto:hello@tryvera.dev" className="text-black/50 hover:text-black text-sm transition-colors">hello@tryvera.dev</a>
+            <p className="text-white/30 text-sm">© 2026 Vera. AI-powered website audits.</p>
+            <a href="mailto:hello@tryvera.dev" className="text-white/50 hover:text-white text-sm transition-colors">hello@tryvera.dev</a>
           </div>
         </footer>
       </div>
       
       <style jsx>{`
-        @keyframes draw {
-          from { stroke-dashoffset: 200; }
-          to { stroke-dashoffset: 0; }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(4px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-        .animate-draw {
-          stroke-dasharray: 200;
-          stroke-dashoffset: 200;
-          animation: draw 1s ease-out 0.5s forwards;
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out forwards;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
         }
       `}</style>
     </main>
