@@ -7,6 +7,8 @@ export default function Home() {
   const [website, setWebsite] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [activeTab, setActiveTab] = useState(0);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -19,320 +21,382 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-[#09090B] text-white antialiased">
-      {/* Subtle grid background */}
-      <div 
-        className="fixed inset-0 opacity-[0.02]" 
-        style={{
-          backgroundImage: 'linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px)',
-          backgroundSize: '64px 64px'
-        }}
-      />
+    <main className="min-h-screen bg-white text-zinc-900 antialiased">
+      {/* Navigation */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-zinc-200 transition-all duration-500 ${mounted ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center gap-2">
+              <span className="text-xl font-semibold tracking-tight">vera</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-orange-500" />
+            </div>
+            <div className="hidden md:flex items-center gap-8">
+              <a href="#how-it-works" className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors">How It Works</a>
+              <a href="#work" className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors">Work</a>
+              <a href="#pricing" className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors">Pricing</a>
+              <a href="#faq" className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors">FAQ</a>
+            </div>
+            <a href="#contact" className="px-4 py-2 bg-zinc-900 text-white text-sm font-medium rounded-lg hover:bg-zinc-800 transition-colors">
+              Get Started Free
+            </a>
+          </div>
+        </div>
+      </nav>
 
-      <div className="relative z-10">
-        {/* Navigation */}
-        <nav className={`fixed top-0 left-0 right-0 z-50 border-b border-white/[0.06] bg-[#09090B]/80 backdrop-blur-lg transition-all duration-500 ${mounted ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
-          <div className="container mx-auto px-6">
-            <div className="flex items-center justify-between h-16">
-              <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-lg bg-white flex items-center justify-center">
-                  <span className="font-black text-sm text-black">V</span>
-                </div>
-                <span className="text-lg font-semibold tracking-tight">vera</span>
+      {/* Hero */}
+      <section className="pt-32 pb-20 md:pt-40 md:pb-32">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="max-w-3xl">
+            <div className={`transition-all duration-700 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-orange-50 border border-orange-200 rounded-full text-sm text-orange-700 mb-6">
+                <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
+                Accepting new clients
               </div>
-              <div className="hidden md:flex items-center gap-8">
-                <a href="#services" className="text-sm text-zinc-400 hover:text-white transition-colors">Services</a>
-                <a href="#work" className="text-sm text-zinc-400 hover:text-white transition-colors">Work</a>
-                <a href="#contact" className="text-sm text-zinc-400 hover:text-white transition-colors">Contact</a>
-              </div>
-              <a href="#contact" className="px-4 py-2 bg-white text-black text-sm font-medium rounded-lg hover:bg-zinc-200 transition-colors">
-                Get Started
+            </div>
+            
+            <h1 className={`text-4xl sm:text-5xl md:text-6xl font-semibold leading-[1.1] tracking-tight mb-6 transition-all duration-700 delay-100 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+              Your website should be your best salesperson.
+              <span className="text-zinc-400"> Not your worst.</span>
+            </h1>
+            
+            <p className={`text-lg text-zinc-600 max-w-xl mb-8 leading-relaxed transition-all duration-700 delay-200 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+              Broken links, slow pages, and poor mobile experience are costing you customers. 
+              We audit, fix, and optimize your site so it actually converts.
+            </p>
+
+            <div className={`flex flex-col sm:flex-row gap-3 transition-all duration-700 delay-300 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+              <a href="#contact" className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-zinc-900 text-white font-medium rounded-lg hover:bg-zinc-800 transition-colors">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Get Free Audit
+              </a>
+              <a href="#how-it-works" className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-zinc-300 text-zinc-700 font-medium rounded-lg hover:bg-zinc-50 transition-colors">
+                See How It Works
               </a>
             </div>
           </div>
-        </nav>
+        </div>
+      </section>
 
-        {/* Hero */}
-        <section className="min-h-screen flex items-center pt-16">
-          <div className="container mx-auto px-6 py-24">
-            <div className="max-w-3xl">
-              <p className={`text-sm font-medium text-zinc-500 mb-6 transition-all duration-500 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
-                Web Development & Repair
-              </p>
-              
-              <h1 className={`text-4xl sm:text-5xl md:text-6xl font-semibold leading-[1.1] tracking-tight mb-6 transition-all duration-500 delay-100 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
-                Your website is costing you customers.
-                <span className="text-zinc-500"> We fix that.</span>
-              </h1>
-              
-              <p className={`text-lg text-zinc-400 max-w-xl mb-10 leading-relaxed transition-all duration-500 delay-200 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
-                Broken links, slow load times, and poor mobile experience drive visitors away. 
-                We identify the problems and ship the fixes—fast.
-              </p>
+      {/* Logos / Trust */}
+      <section className="py-12 border-y border-zinc-200 bg-zinc-50">
+        <div className="max-w-6xl mx-auto px-6">
+          <p className="text-center text-xs font-medium text-zinc-400 tracking-wider uppercase mb-8">Trusted by businesses in</p>
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 text-zinc-400">
+            {['Richmond VA', 'Washington DC', 'Charlotte NC', 'Atlanta GA', 'Remote'].map((city, i) => (
+              <span key={i} className="text-sm font-medium">{city}</span>
+            ))}
+          </div>
+        </div>
+      </section>
 
-              <div className={`flex flex-col sm:flex-row gap-3 transition-all duration-500 delay-300 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
-                <a href="#contact" className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-black font-medium rounded-lg hover:bg-zinc-200 transition-colors">
-                  Get a Free Audit
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+      {/* How It Works */}
+      <section id="how-it-works" className="py-20 md:py-32">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <p className="text-sm font-medium text-orange-600 mb-3">How It Works</p>
+            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">Fix your website in 3 simple steps</h2>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { 
+                step: '01',
+                title: 'Free Audit', 
+                desc: 'We scan your site for broken links, speed issues, mobile problems, and SEO gaps. You get a detailed report within 24 hours.',
+                icon: (
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
-                </a>
-                <a href="#services" className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-zinc-800 text-white font-medium rounded-lg hover:bg-zinc-900 transition-colors">
-                  View Services
-                </a>
+                )
+              },
+              { 
+                step: '02',
+                title: 'Get a Quote', 
+                desc: 'Based on the audit, we give you a clear, fixed-price quote. No hourly surprises. You know exactly what you pay.',
+                icon: (
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                  </svg>
+                )
+              },
+              { 
+                step: '03',
+                title: 'We Fix It', 
+                desc: 'Our team implements the fixes. Most projects are done within 48 hours. You get a faster, better site that converts.',
+                icon: (
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                )
+              },
+            ].map((item, i) => (
+              <div key={i} className="relative p-6 bg-white border border-zinc-200 rounded-2xl hover:border-zinc-300 hover:shadow-sm transition-all">
+                <div className="absolute -top-3 left-6 px-2 bg-white text-xs font-mono text-zinc-400">{item.step}</div>
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-orange-50 text-orange-600 mb-4">
+                  {item.icon}
+                </div>
+                <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
+                <p className="text-zinc-600 text-sm leading-relaxed">{item.desc}</p>
               </div>
-            </div>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Stats */}
-        <section className="border-y border-white/[0.06]">
-          <div className="container mx-auto px-6">
-            <div className="grid grid-cols-2 md:grid-cols-4">
-              {[
-                { value: '48h', label: 'Avg. Turnaround' },
-                { value: '100+', label: 'Sites Fixed' },
-                { value: '3x', label: 'Speed Increase' },
-                { value: '99%', label: 'Uptime' },
-              ].map((stat, i) => (
-                <div key={i} className={`py-8 ${i > 0 ? 'border-l border-white/[0.06]' : ''} text-center`}>
-                  <div className="text-2xl md:text-3xl font-semibold">{stat.value}</div>
-                  <div className="text-sm text-zinc-500 mt-1">{stat.label}</div>
+      {/* Features Tabs */}
+      <section className="py-20 md:py-32 bg-zinc-50 border-y border-zinc-200">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <p className="text-sm font-medium text-orange-600 mb-3">What We Fix</p>
+            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">Common problems we solve every day</h2>
+          </div>
+          
+          <div className="flex justify-center gap-2 mb-8">
+            {['Speed Issues', 'Mobile Problems', 'Broken Elements'].map((tab, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveTab(i)}
+                className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === i ? 'bg-zinc-900 text-white' : 'bg-white border border-zinc-200 text-zinc-600 hover:bg-zinc-100'}`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+          
+          <div className="max-w-2xl mx-auto">
+            {activeTab === 0 && (
+              <div className="bg-white border border-zinc-200 rounded-2xl p-8">
+                <h3 className="text-xl font-semibold mb-3">Slow sites kill conversions</h3>
+                <p className="text-zinc-600 mb-4">Every extra second of load time costs you 7% in conversions. We optimize images, clean up code, and implement caching to make your site lightning fast.</p>
+                <ul className="space-y-2">
+                  {['Image optimization', 'Code minification', 'Browser caching', 'CDN setup'].map((item, i) => (
+                    <li key={i} className="flex items-center gap-2 text-sm text-zinc-600">
+                      <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {activeTab === 1 && (
+              <div className="bg-white border border-zinc-200 rounded-2xl p-8">
+                <h3 className="text-xl font-semibold mb-3">60% of your visitors are on mobile</h3>
+                <p className="text-zinc-600 mb-4">If your site is broken on phones, you are invisible to most of your potential customers. We make sure everything works perfectly on every device.</p>
+                <ul className="space-y-2">
+                  {['Responsive layouts', 'Touch-friendly buttons', 'Fast mobile loading', 'Readable text sizes'].map((item, i) => (
+                    <li key={i} className="flex items-center gap-2 text-sm text-zinc-600">
+                      <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {activeTab === 2 && (
+              <div className="bg-white border border-zinc-200 rounded-2xl p-8">
+                <h3 className="text-xl font-semibold mb-3">Broken things destroy trust</h3>
+                <p className="text-zinc-600 mb-4">Dead links, missing images, and error pages make visitors leave immediately. We find and fix every broken element on your site.</p>
+                <ul className="space-y-2">
+                  {['Broken link repair', 'Missing image fixes', '404 page setup', 'Form testing'].map((item, i) => (
+                    <li key={i} className="flex items-center gap-2 text-sm text-zinc-600">
+                      <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Work / Portfolio */}
+      <section id="work" className="py-20 md:py-32">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <p className="text-sm font-medium text-orange-600 mb-3">Our Work</p>
+            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">Recent projects</h2>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { 
+                name: 'Financially Cooked',
+                url: 'financiallycooked.com',
+                desc: 'Viral financial calculator with 1,000+ users. Built with React and Supabase.',
+                tags: ['Web App', 'React']
+              },
+              { 
+                name: 'RVA Tacontigo',
+                url: 'rvatacontigo.com',
+                desc: 'Food truck website optimized for mobile ordering and local SEO.',
+                tags: ['Small Business', 'Mobile']
+              },
+              { 
+                name: 'NIMPRO Electrical',
+                url: 'nimproelectrical.com',
+                desc: 'Professional contractor site built for lead generation and trust.',
+                tags: ['Contractor', 'Lead Gen']
+              },
+            ].map((project, i) => (
+              <a 
+                key={i} 
+                href={`https://${project.url}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block p-6 bg-white border border-zinc-200 rounded-2xl hover:border-zinc-300 hover:shadow-sm transition-all"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <h3 className="font-semibold">{project.name}</h3>
+                  <svg className="w-4 h-4 text-zinc-400 group-hover:text-zinc-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Problems */}
-        <section className="py-24">
-          <div className="container mx-auto px-6">
-            <div className="max-w-2xl mb-16">
-              <p className="text-sm font-medium text-zinc-500 mb-3">The Problem</p>
-              <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">Common issues we solve</h2>
-            </div>
-            
-            <div className="grid md:grid-cols-3 gap-px bg-white/[0.06] rounded-2xl overflow-hidden">
-              {[
-                { 
-                  title: 'Broken & Outdated', 
-                  desc: 'Dead links, missing images, and outdated information make visitors leave immediately.',
-                  icon: (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
-                  )
-                },
-                { 
-                  title: 'Slow Performance', 
-                  desc: 'Every second of load time costs conversions. Most sites are significantly slower than they should be.',
-                  icon: (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  )
-                },
-                { 
-                  title: 'Poor Mobile Experience', 
-                  desc: 'Over 60% of traffic is mobile. Sites that do not work on phones are invisible to most visitors.',
-                  icon: (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                    </svg>
-                  )
-                },
-              ].map((item, i) => (
-                <div key={i} className="bg-[#09090B] p-8">
-                  <div className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-zinc-900 text-zinc-400 mb-4">
-                    {item.icon}
-                  </div>
-                  <h3 className="text-lg font-medium mb-2">{item.title}</h3>
-                  <p className="text-zinc-500 text-sm leading-relaxed">{item.desc}</p>
+                <p className="text-zinc-600 text-sm mb-4">{project.desc}</p>
+                <div className="flex flex-wrap gap-2">
+                  {project.tags.map((tag, j) => (
+                    <span key={j} className="px-2 py-1 bg-zinc-100 rounded text-xs text-zinc-600">{tag}</span>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </a>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Work / Portfolio */}
-        <section id="work" className="py-24 border-t border-white/[0.06]">
-          <div className="container mx-auto px-6">
-            <div className="max-w-2xl mb-16">
-              <p className="text-sm font-medium text-zinc-500 mb-3">Our Work</p>
-              <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">Recent projects</h2>
-            </div>
-            
-            <div className="grid md:grid-cols-3 gap-6">
-              {[
-                { 
-                  name: 'Financially Cooked',
-                  url: 'financiallycooked.com',
-                  desc: 'Viral financial calculator with 1,000+ users',
-                  tags: ['Web App', 'React', 'Supabase']
-                },
-                { 
-                  name: 'RVA Tacontigo',
-                  url: 'rvatacontigo.com',
-                  desc: 'Food truck website with mobile-first design',
-                  tags: ['Small Business', 'Local SEO']
-                },
-                { 
-                  name: 'NIMPRO Electrical',
-                  url: 'nimproelectrical.com',
-                  desc: 'Professional contractor site that converts',
-                  tags: ['Contractor', 'Lead Generation']
-                },
-              ].map((project, i) => (
-                <a 
-                  key={i} 
-                  href={`https://${project.url}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block p-6 rounded-xl border border-white/[0.06] hover:border-white/[0.12] bg-zinc-900/30 transition-all"
+      {/* Pricing */}
+      <section id="pricing" className="py-20 md:py-32 bg-zinc-50 border-y border-zinc-200">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <p className="text-sm font-medium text-orange-600 mb-3">Pricing</p>
+            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">Simple, transparent pricing</h2>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+            {[
+              { title: 'Audit', price: 'Free', desc: 'Full site analysis', features: ['Speed test', 'Mobile check', 'SEO review', 'Broken links scan'], featured: true },
+              { title: 'Quick Fix', price: '$150+', desc: 'Per-issue pricing', features: ['48hr turnaround', 'Bug fixes', 'Speed fixes', 'Content updates'], featured: false },
+              { title: 'New Site', price: '$999+', desc: 'Built from scratch', features: ['Custom design', 'Mobile-first', 'SEO setup', 'CMS included'], featured: false },
+              { title: 'Monthly', price: '$99/mo', desc: 'Ongoing care', features: ['Updates', 'Backups', 'Security', 'Priority support'], featured: false },
+            ].map((plan, i) => (
+              <div key={i} className={`p-6 rounded-2xl border ${plan.featured ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white border-zinc-200'}`}>
+                {plan.featured && <span className="inline-block px-2 py-1 bg-orange-500 text-white text-xs font-medium rounded mb-3">Popular</span>}
+                <div className={`text-2xl font-semibold mb-1 ${plan.featured ? 'text-white' : ''}`}>{plan.price}</div>
+                <h3 className={`font-medium mb-1 ${plan.featured ? 'text-white' : ''}`}>{plan.title}</h3>
+                <p className={`text-sm mb-6 ${plan.featured ? 'text-zinc-400' : 'text-zinc-500'}`}>{plan.desc}</p>
+                <ul className="space-y-2">
+                  {plan.features.map((f, j) => (
+                    <li key={j} className={`flex items-center gap-2 text-sm ${plan.featured ? 'text-zinc-300' : 'text-zinc-600'}`}>
+                      <svg className={`w-4 h-4 ${plan.featured ? 'text-orange-400' : 'text-green-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="py-20 md:py-32">
+        <div className="max-w-3xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <p className="text-sm font-medium text-orange-600 mb-3">FAQ</p>
+            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">Frequently asked questions</h2>
+          </div>
+          
+          <div className="space-y-3">
+            {[
+              { q: 'How long does an audit take?', a: 'Most audits are completed within 24 hours. You will receive a detailed PDF report via email.' },
+              { q: 'What if I need ongoing support?', a: 'Our monthly care plan includes unlimited small fixes, regular updates, backups, and priority support for $99/month.' },
+              { q: 'Do you work with all website platforms?', a: 'Yes. WordPress, Shopify, Squarespace, Wix, custom code—we work with everything.' },
+              { q: 'What payment methods do you accept?', a: 'We accept all major credit cards, PayPal, and bank transfers for larger projects.' },
+            ].map((faq, i) => (
+              <div key={i} className="border border-zinc-200 rounded-xl overflow-hidden">
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full flex items-center justify-between p-4 text-left hover:bg-zinc-50 transition-colors"
                 >
-                  <div className="flex items-start justify-between mb-4">
-                    <h3 className="font-medium">{project.name}</h3>
-                    <svg className="w-4 h-4 text-zinc-600 group-hover:text-zinc-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </div>
-                  <p className="text-zinc-500 text-sm mb-4">{project.desc}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag, j) => (
-                      <span key={j} className="px-2 py-1 bg-zinc-800/50 rounded text-xs text-zinc-500">{tag}</span>
-                    ))}
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Services */}
-        <section id="services" className="py-24 border-t border-white/[0.06]">
-          <div className="container mx-auto px-6">
-            <div className="max-w-2xl mb-16">
-              <p className="text-sm font-medium text-zinc-500 mb-3">Services</p>
-              <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">Simple, transparent pricing</h2>
-            </div>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { 
-                  title: 'Free Audit', 
-                  price: '$0', 
-                  desc: 'Comprehensive analysis of your current site.',
-                  features: ['Full site scan', 'Speed analysis', 'Mobile testing', 'SEO review'],
-                  featured: true
-                },
-                { 
-                  title: 'Quick Fix', 
-                  price: '$150+', 
-                  desc: 'Fast fixes for specific issues.',
-                  features: ['48hr turnaround', 'Bug fixes', 'Speed optimization', 'Content updates'],
-                  featured: false
-                },
-                { 
-                  title: 'New Website', 
-                  price: '$999+', 
-                  desc: 'Modern site built from scratch.',
-                  features: ['Custom design', 'Mobile-first', 'SEO optimized', 'CMS included'],
-                  featured: false
-                },
-                { 
-                  title: 'Monthly Care', 
-                  price: '$99/mo', 
-                  desc: 'Ongoing maintenance and support.',
-                  features: ['Regular updates', 'Security monitoring', 'Daily backups', 'Priority support'],
-                  featured: false
-                },
-              ].map((service, i) => (
-                <div key={i} className={`p-6 rounded-xl border ${service.featured ? 'border-white/20 bg-white/[0.02]' : 'border-white/[0.06]'}`}>
-                  {service.featured && (
-                    <span className="inline-block px-2 py-1 bg-white text-black text-xs font-medium rounded mb-4">Popular</span>
-                  )}
-                  <div className="text-2xl font-semibold mb-1">{service.price}</div>
-                  <h3 className="font-medium mb-2">{service.title}</h3>
-                  <p className="text-zinc-500 text-sm mb-6">{service.desc}</p>
-                  <ul className="space-y-2">
-                    {service.features.map((f, j) => (
-                      <li key={j} className="flex items-center gap-2 text-sm text-zinc-400">
-                        <svg className="w-4 h-4 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Contact */}
-        <section id="contact" className="py-24 border-t border-white/[0.06]">
-          <div className="container mx-auto px-6">
-            <div className="max-w-lg mx-auto">
-              <div className="text-center mb-10">
-                <h2 className="text-3xl font-semibold tracking-tight mb-3">Get your free audit</h2>
-                <p className="text-zinc-500">Enter your site URL and we will send a detailed report within 24 hours.</p>
-              </div>
-              
-              {submitted ? (
-                <div className="text-center py-12 border border-white/[0.06] rounded-xl">
-                  <svg className="w-12 h-12 mx-auto text-zinc-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <span className="font-medium">{faq.q}</span>
+                  <svg className={`w-5 h-5 text-zinc-400 transition-transform ${openFaq === i ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
-                  <h3 className="text-xl font-medium mb-2">Request received</h3>
-                  <p className="text-zinc-500 text-sm">We will be in touch within 24 hours.</p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <input
-                    type="url"
-                    required
-                    placeholder="https://yourwebsite.com"
-                    value={website}
-                    onChange={(e) => setWebsite(e.target.value)}
-                    className="w-full px-4 py-3 bg-transparent border border-zinc-800 rounded-lg focus:outline-none focus:border-zinc-600 transition-colors placeholder:text-zinc-700"
-                  />
-                  <input
-                    type="email"
-                    required
-                    placeholder="you@email.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-3 bg-transparent border border-zinc-800 rounded-lg focus:outline-none focus:border-zinc-600 transition-colors placeholder:text-zinc-700"
-                  />
-                  <button type="submit" className="w-full py-3 bg-white text-black font-medium rounded-lg hover:bg-zinc-200 transition-colors">
-                    Request Free Audit
-                  </button>
-                  <p className="text-center text-zinc-600 text-xs">No spam. No obligations.</p>
-                </form>
-              )}
-            </div>
-          </div>
-        </section>
-
-        {/* Footer */}
-        <footer className="py-8 border-t border-white/[0.06]">
-          <div className="container mx-auto px-6">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <div className="flex items-center gap-2">
-                <div className="h-6 w-6 rounded bg-white flex items-center justify-center">
-                  <span className="font-bold text-xs text-black">V</span>
-                </div>
-                <span className="text-sm font-medium">vera</span>
+                </button>
+                {openFaq === i && (
+                  <div className="px-4 pb-4 text-zinc-600 text-sm">{faq.a}</div>
+                )}
               </div>
-              <p className="text-zinc-600 text-sm">© 2026 Vera</p>
-              <a href="https://mail.google.com/mail/?view=cm&to=hello@tryvera.dev" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white text-sm transition-colors">
-                hello@tryvera.dev
-              </a>
-            </div>
+            ))}
           </div>
-        </footer>
-      </div>
+        </div>
+      </section>
+
+      {/* Contact CTA */}
+      <section id="contact" className="py-20 md:py-32 bg-zinc-900 text-white">
+        <div className="max-w-xl mx-auto px-6 text-center">
+          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight mb-4">Ready to fix your website?</h2>
+          <p className="text-zinc-400 mb-8">Get your free audit. We will send a detailed report within 24 hours.</p>
+          
+          {submitted ? (
+            <div className="py-8">
+              <svg className="w-12 h-12 mx-auto text-green-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="text-xl font-medium mb-2">Request received!</p>
+              <p className="text-zinc-400">We will be in touch within 24 hours.</p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-3">
+              <input
+                type="url"
+                required
+                placeholder="https://yourwebsite.com"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:border-white/40 text-white placeholder:text-zinc-500"
+              />
+              <input
+                type="email"
+                required
+                placeholder="you@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:border-white/40 text-white placeholder:text-zinc-500"
+              />
+              <button type="submit" className="w-full py-3 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-colors">
+                Get Free Audit
+              </button>
+            </form>
+          )}
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-8 border-t border-zinc-200">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-2">
+              <span className="font-semibold">vera</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-orange-500" />
+            </div>
+            <p className="text-zinc-500 text-sm">© 2026 Vera. All rights reserved.</p>
+            <a href="https://mail.google.com/mail/?view=cm&to=hello@tryvera.dev" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-zinc-900 text-sm transition-colors">
+              hello@tryvera.dev
+            </a>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
