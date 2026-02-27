@@ -1,21 +1,36 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { submitAuditRequest } from '../lib/supabase';
 
 export default function Home() {
   const [email, setEmail] = useState('');
   const [website, setWebsite] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    window.open(`https://mail.google.com/mail/?view=cm&to=hello@tryvera.dev&su=${encodeURIComponent('Free Website Audit Request')}&body=${encodeURIComponent(`Website: ${website}\n\nEmail: ${email}`)}`, '_blank');
-    setSubmitted(true);
+    setSubmitting(true);
+    setError('');
+    
+    try {
+      await submitAuditRequest({ email, website });
+      setSubmitted(true);
+    } catch (err) {
+      console.error('Submit error:', err);
+      // Fallback to email if Supabase fails
+      window.open(`https://mail.google.com/mail/?view=cm&to=hello@tryvera.dev&su=${encodeURIComponent('Free Website Audit Request')}&body=${encodeURIComponent(`Website: ${website}\n\nEmail: ${email}`)}`, '_blank');
+      setSubmitted(true);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -246,7 +261,7 @@ export default function Home() {
                 },
                 { 
                   title: 'Quick Fix', 
-                  price: '$150+', 
+                  price: '$199+', 
                   desc: 'Small problems fixed fast. Pay per issue.',
                   features: ['48hr turnaround', 'Broken links', 'Speed fixes', 'Bug repairs'],
                   cta: 'Learn More',
@@ -254,7 +269,7 @@ export default function Home() {
                 },
                 { 
                   title: 'New Build', 
-                  price: '$999+', 
+                  price: '$2,500+', 
                   desc: 'Modern website built from scratch.',
                   features: ['Custom design', 'Mobile-first', 'SEO ready', 'Fast hosting'],
                   cta: 'Learn More',
@@ -262,7 +277,7 @@ export default function Home() {
                 },
                 { 
                   title: 'Monthly', 
-                  price: '$99/mo', 
+                  price: '$149/mo', 
                   desc: 'We handle everything. You relax.',
                   features: ['Updates', 'Backups', 'Security', 'Priority support'],
                   cta: 'Learn More',
@@ -343,8 +358,12 @@ export default function Home() {
                           className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-purple-500/50 transition-colors placeholder:text-white/30"
                         />
                       </div>
-                      <button type="submit" className="w-full py-4 bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 font-bold rounded-xl hover:opacity-90 transition-opacity">
-                        Send Me My Free Audit →
+                      <button 
+                        type="submit" 
+                        disabled={submitting}
+                        className="w-full py-4 bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 font-bold rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {submitting ? 'Sending...' : 'Send Me My Free Audit →'}
                       </button>
                       <p className="text-center text-white/30 text-sm">No spam. No obligations. Just insights.</p>
                     </form>
