@@ -20,23 +20,23 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[#0A0A0A] text-white">
-      {/* Animated gradient orbs */}
+      {/* Gradient background - simplified for mobile performance */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-500/20 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute top-1/2 -left-40 w-80 h-80 bg-cyan-500/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute -bottom-40 right-1/3 w-72 h-72 bg-pink-500/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '2s' }} />
+        {/* Static gradient for mobile, animated for desktop */}
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-transparent to-cyan-900/20 md:hidden" />
+        {/* Animated orbs only on desktop */}
+        <div className="hidden md:block">
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-500/20 rounded-full blur-[120px] animate-pulse will-change-transform" />
+          <div className="absolute top-1/2 -left-40 w-80 h-80 bg-cyan-500/20 rounded-full blur-[100px] animate-pulse will-change-transform" style={{ animationDelay: '1s' }} />
+          <div className="absolute -bottom-40 right-1/3 w-72 h-72 bg-pink-500/20 rounded-full blur-[100px] animate-pulse will-change-transform" style={{ animationDelay: '2s' }} />
+        </div>
       </div>
-
-      {/* Noise texture */}
-      <div className="fixed inset-0 opacity-[0.015] pointer-events-none" style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-      }} />
 
       <div className="relative z-10">
         {/* Navigation */}
         <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${mounted ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
           <div className="container mx-auto px-6 py-4">
-            <div className="flex items-center justify-between backdrop-blur-xl bg-white/[0.03] border border-white/[0.05] rounded-2xl px-6 py-3">
+            <div className="flex items-center justify-between bg-black/80 md:backdrop-blur-xl md:bg-white/[0.03] border border-white/[0.05] rounded-2xl px-6 py-3">
               <div className="flex items-center gap-3">
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-xl blur-sm opacity-70" />
