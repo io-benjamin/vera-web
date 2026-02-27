@@ -1,31 +1,47 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { submitAuditRequest } from '../lib/supabase';
+
+// Generate random dots for background
+const generateDots = (count: number) => {
+  return Array.from({ length: count }, (_, i) => ({
+    id: i,
+    left: Math.random() * 100,
+    top: Math.random() * 100,
+    delay: Math.random() * 4,
+    duration: 3 + Math.random() * 2,
+  }));
+};
 
 export default function Home() {
   const [email, setEmail] = useState('');
   const [website, setWebsite] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState('');
   const [mounted, setMounted] = useState(false);
-
+  const [dots] = useState(() => generateDots(20));
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  
   useEffect(() => {
     setMounted(true);
+    
+    const handleMouse = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+    
+    window.addEventListener('mousemove', handleMouse);
+    return () => window.removeEventListener('mousemove', handleMouse);
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    setError('');
     
     try {
       await submitAuditRequest({ email, website });
       setSubmitted(true);
     } catch (err) {
-      console.error('Submit error:', err);
-      // Fallback to email if Supabase fails
       window.open(`https://mail.google.com/mail/?view=cm&to=hello@tryvera.dev&su=${encodeURIComponent('Free Website Audit Request')}&body=${encodeURIComponent(`Website: ${website}\n\nEmail: ${email}`)}`, '_blank');
       setSubmitted(true);
     } finally {
@@ -34,183 +50,167 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0A0A0A] text-white">
-      {/* Gradient background - simplified for mobile performance */}
+    <main className="min-h-screen relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="grid-bg" />
+      <div className="noise" />
+      
+      {/* Floating gradient shapes */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {/* Static gradient for mobile, animated for desktop */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-transparent to-cyan-900/20 md:hidden" />
-        {/* Animated orbs only on desktop */}
-        <div className="hidden md:block">
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-500/20 rounded-full blur-[120px] animate-pulse will-change-transform" />
-          <div className="absolute top-1/2 -left-40 w-80 h-80 bg-cyan-500/20 rounded-full blur-[100px] animate-pulse will-change-transform" style={{ animationDelay: '1s' }} />
-          <div className="absolute -bottom-40 right-1/3 w-72 h-72 bg-pink-500/20 rounded-full blur-[100px] animate-pulse will-change-transform" style={{ animationDelay: '2s' }} />
-        </div>
+        <div 
+          className="floating-shape shape-1"
+          style={{
+            transform: `translate(${mousePos.x * 0.02}px, ${mousePos.y * 0.02}px)`,
+          }}
+        />
+        <div 
+          className="floating-shape shape-2"
+          style={{
+            transform: `translate(${mousePos.x * -0.015}px, ${mousePos.y * -0.015}px)`,
+          }}
+        />
+        <div 
+          className="floating-shape shape-3"
+          style={{
+            transform: `translate(${mousePos.x * 0.01}px, ${mousePos.y * 0.01}px)`,
+          }}
+        />
+      </div>
+      
+      {/* Animated dots */}
+      <div className="dot-field">
+        {dots.map(dot => (
+          <div
+            key={dot.id}
+            className="dot"
+            style={{
+              left: `${dot.left}%`,
+              top: `${dot.top}%`,
+              animationDelay: `${dot.delay}s`,
+              animationDuration: `${dot.duration}s`,
+            }}
+          />
+        ))}
       </div>
 
+      {/* Content */}
       <div className="relative z-10">
-        {/* Navigation */}
-        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${mounted ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
-          <div className="container mx-auto px-6 py-4">
-            <div className="flex items-center justify-between bg-black/80 md:backdrop-blur-xl md:bg-white/[0.03] border border-white/[0.05] rounded-2xl px-6 py-3">
-              <div className="flex items-center gap-3">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-xl blur-sm opacity-70" />
-                  <div className="relative h-10 w-10 rounded-xl bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center">
-                    <span className="font-black text-lg">V</span>
-                  </div>
-                </div>
-                <span className="text-xl font-bold">vera</span>
+        {/* Nav */}
+        <nav className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
+          <div className="flex items-center gap-2 px-6 py-3 bg-white/70 backdrop-blur-xl rounded-full border border-black/5 shadow-lg shadow-black/5">
+            <div className="flex items-center gap-2 pr-4 border-r border-black/10">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#ff6b35] to-[#ff8f65] flex items-center justify-center">
+                <span className="text-white font-bold text-sm">V</span>
               </div>
-              <div className="hidden md:flex items-center gap-8">
-                <a href="#services" className="text-sm text-white/60 hover:text-white transition-colors">Services</a>
-                <a href="#work" className="text-sm text-white/60 hover:text-white transition-colors">Work</a>
-                <a href="#contact" className="text-sm text-white/60 hover:text-white transition-colors">Contact</a>
-              </div>
-              <a href="#contact" className="group relative px-5 py-2.5 overflow-hidden rounded-xl">
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-cyan-500 transition-transform group-hover:scale-105" />
-                <span className="relative font-semibold text-sm">Get Started</span>
-              </a>
+              <span className="font-semibold text-sm">vera</span>
             </div>
+            <div className="hidden md:flex items-center">
+              <a href="#work" className="px-4 py-2 text-sm text-black/50 hover:text-black transition-colors">Work</a>
+              <a href="#pricing" className="px-4 py-2 text-sm text-black/50 hover:text-black transition-colors">Pricing</a>
+            </div>
+            <a href="#contact" className="ml-2 px-5 py-2 bg-black text-white text-sm font-medium rounded-full hover:bg-black/80 transition-colors">
+              Free Audit
+            </a>
           </div>
         </nav>
 
         {/* Hero */}
-        <section className="min-h-screen flex items-center pt-32 pb-20">
-          <div className="container mx-auto px-6">
-            <div className="max-w-5xl">
-              <div className={`transition-all duration-700 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/[0.03] rounded-full border border-white/[0.08] mb-8">
-                  <div className="flex -space-x-1">
-                    <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                    <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" style={{ animationDelay: '0.2s' }} />
-                    <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" style={{ animationDelay: '0.4s' }} />
-                  </div>
-                  <span className="text-sm text-white/50">Available for projects</span>
-                </div>
+        <section className="min-h-screen flex items-center justify-center px-6">
+          <div className="max-w-3xl mx-auto text-center">
+            <div className={`transition-all duration-700 delay-100 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#fff4f0] rounded-full mb-8">
+                <span className="w-2 h-2 rounded-full bg-[#ff6b35] animate-pulse" />
+                <span className="text-sm font-medium text-[#ff6b35]">Now accepting clients</span>
               </div>
-              
-              <h1 className={`text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.95] mb-8 transition-all duration-700 delay-100 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-                <span className="block">Your website</span>
-                <span className="block">is losing you</span>
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400">money.</span>
-              </h1>
-              
-              <p className={`text-lg md:text-xl text-white/50 max-w-xl mb-12 leading-relaxed transition-all duration-700 delay-200 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-                Broken links. Slow load times. Terrible on mobile. 
-                We find the problems and fix them fast.
-              </p>
-
-              <div className={`flex flex-col sm:flex-row gap-4 transition-all duration-700 delay-300 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-                <a href="#contact" className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 overflow-hidden rounded-2xl">
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 transition-all group-hover:scale-105" />
-                  <div className="absolute inset-[2px] bg-[#0A0A0A] rounded-[14px] transition-opacity group-hover:opacity-0" />
-                  <span className="relative font-bold text-lg">Free Website Audit</span>
-                  <svg className="relative w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </a>
-                <a href="#services" className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl border border-white/10 font-semibold hover:bg-white/5 transition-all">
-                  View Services
-                </a>
-              </div>
+            </div>
+            
+            <h1 className={`text-5xl md:text-7xl lg:text-8xl font-bold leading-[1.05] tracking-tight mb-8 transition-all duration-700 delay-200 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              Websites that
+              <br />
+              <span className="relative">
+                actually
+                <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none">
+                  <path d="M2 10C50 4 150 4 198 10" stroke="#ff6b35" strokeWidth="4" strokeLinecap="round" className="animate-draw" />
+                </svg>
+              </span>
+              {' '}work.
+            </h1>
+            
+            <p className={`text-lg md:text-xl text-black/50 max-w-lg mx-auto mb-12 leading-relaxed transition-all duration-700 delay-300 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              Slow loads. Broken links. Mobile nightmares.
+              <br />
+              We fix what is costing you customers.
+            </p>
+            
+            <div className={`flex flex-col sm:flex-row gap-4 justify-center transition-all duration-700 delay-400 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              <a href="#contact" className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-black text-white font-semibold rounded-2xl hover:bg-black/80 transition-all hover:gap-4">
+                Get Your Free Audit
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
             </div>
           </div>
         </section>
 
-        {/* Stats bar */}
-        <section className="py-12 border-y border-white/[0.05]">
-          <div className="container mx-auto px-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        {/* Problem Statement */}
+        <section className="py-32 px-6">
+          <div className="max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-8">
               {[
-                { value: '48hr', label: 'Average Turnaround' },
-                { value: '100+', label: 'Sites Improved' },
-                { value: '3x', label: 'Speed Increase' },
-                { value: '24/7', label: 'Support' },
+                { 
+                  num: '7%',
+                  title: 'lost per second',
+                  desc: 'Every extra second of load time costs you conversions. Speed matters.',
+                },
+                { 
+                  num: '60%',
+                  title: 'are on mobile',
+                  desc: 'If your site breaks on phones, most visitors never see it properly.',
+                },
+                { 
+                  num: '88%',
+                  title: 'wont return',
+                  desc: 'Users who have a bad experience rarely give you a second chance.',
+                },
               ].map((stat, i) => (
-                <div key={i} className="text-center">
-                  <div className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">{stat.value}</div>
-                  <div className="text-sm text-white/40 mt-1">{stat.label}</div>
+                <div key={i} className="group p-8 rounded-3xl bg-white border border-black/5 hover:border-[#ff6b35]/20 hover:shadow-xl hover:shadow-[#ff6b35]/5 transition-all duration-300">
+                  <div className="text-5xl font-bold text-[#ff6b35] mb-2">{stat.num}</div>
+                  <div className="text-lg font-semibold mb-3">{stat.title}</div>
+                  <p className="text-black/50 leading-relaxed">{stat.desc}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Problems we solve */}
-        <section className="py-24">
-          <div className="container mx-auto px-6">
+        {/* Work */}
+        <section id="work" className="py-32 px-6 bg-white">
+          <div className="max-w-5xl mx-auto">
             <div className="text-center mb-16">
-              <span className="text-sm font-medium text-purple-400 tracking-wider uppercase">The Problem</span>
-              <h2 className="text-4xl md:text-5xl font-black mt-4">These issues are killing your business</h2>
+              <span className="text-sm font-medium text-[#ff6b35] tracking-wide uppercase">Our Work</span>
+              <h2 className="text-4xl md:text-5xl font-bold mt-4">Built different.</h2>
             </div>
             
             <div className="grid md:grid-cols-3 gap-6">
               {[
                 { 
-                  icon: '💀', 
-                  title: 'Broken & Outdated', 
-                  desc: 'Dead links, missing images, and outdated info make visitors bounce instantly.',
-                  color: 'from-red-500/20 to-orange-500/20',
-                  border: 'border-red-500/20'
-                },
-                { 
-                  icon: '🐢', 
-                  title: 'Painfully Slow', 
-                  desc: 'Every second of load time costs you 7% in conversions. Most sites are way too slow.',
-                  color: 'from-yellow-500/20 to-amber-500/20',
-                  border: 'border-yellow-500/20'
-                },
-                { 
-                  icon: '📱', 
-                  title: 'Mobile Disaster', 
-                  desc: '60% of your traffic is mobile. If your site is broken on phones, you are invisible.',
-                  color: 'from-blue-500/20 to-cyan-500/20',
-                  border: 'border-blue-500/20'
-                },
-              ].map((item, i) => (
-                <div key={i} className={`group p-8 rounded-3xl bg-gradient-to-br ${item.color} border ${item.border} hover:scale-[1.02] transition-all duration-300`}>
-                  <span className="text-5xl block mb-6">{item.icon}</span>
-                  <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
-                  <p className="text-white/50 leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Portfolio / Work */}
-        <section id="work" className="py-24">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-16">
-              <span className="text-sm font-medium text-pink-400 tracking-wider uppercase">Our Work</span>
-              <h2 className="text-4xl md:text-5xl font-black mt-4">Sites we have built</h2>
-            </div>
-            
-            <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              {[
-                { 
                   name: 'Financially Cooked',
                   url: 'financiallycooked.com',
-                  desc: 'Viral financial calculator with 1000+ users. Modern dark theme with animations.',
-                  tags: ['Web App', 'React', 'Supabase'],
-                  color: 'from-orange-500/20 to-red-500/20',
-                  border: 'border-orange-500/20'
+                  desc: 'Viral calculator app. 1000+ users in first week.',
+                  gradient: 'from-orange-500 to-red-500',
                 },
                 { 
                   name: 'RVA Tacontigo',
                   url: 'rvatacontigo.com',
-                  desc: 'Local food truck website. Mobile-first design for on-the-go customers.',
-                  tags: ['Small Business', 'Mobile', 'Local SEO'],
-                  color: 'from-green-500/20 to-emerald-500/20',
-                  border: 'border-green-500/20'
+                  desc: 'Food truck site. Mobile-first, lightning fast.',
+                  gradient: 'from-green-500 to-emerald-500',
                 },
                 { 
                   name: 'NIMPRO Electrical',
                   url: 'nimproelectrical.com',
-                  desc: 'Professional contractor site. Clean design that builds trust and converts.',
-                  tags: ['Contractor', 'Lead Gen', 'Professional'],
-                  color: 'from-blue-500/20 to-indigo-500/20',
-                  border: 'border-blue-500/20'
+                  desc: 'Contractor site. Professional, converts leads.',
+                  gradient: 'from-blue-500 to-indigo-500',
                 },
               ].map((project, i) => (
                 <a 
@@ -218,178 +218,167 @@ export default function Home() {
                   href={`https://${project.url}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`group p-6 rounded-3xl bg-gradient-to-br ${project.color} border ${project.border} hover:scale-[1.02] transition-all duration-300`}
+                  className="group block"
                 >
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-xl font-bold">{project.name}</h3>
-                    <svg className="w-5 h-5 text-white/30 group-hover:text-white/70 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
+                  <div className={`aspect-[4/3] rounded-2xl bg-gradient-to-br ${project.gradient} mb-4 flex items-center justify-center overflow-hidden relative`}>
+                    <span className="text-white/20 text-6xl font-bold group-hover:scale-110 transition-transform duration-300">{project.name[0]}</span>
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                      <span className="text-white font-medium opacity-0 group-hover:opacity-100 transition-opacity">View Site →</span>
+                    </div>
                   </div>
-                  <p className="text-white/50 text-sm mb-4">{project.desc}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag, j) => (
-                      <span key={j} className="px-2 py-1 bg-white/5 rounded-lg text-xs text-white/40">{tag}</span>
-                    ))}
-                  </div>
-                  <div className="mt-4 pt-4 border-t border-white/5">
-                    <span className="text-sm text-white/30">{project.url}</span>
-                  </div>
+                  <h3 className="font-semibold mb-1">{project.name}</h3>
+                  <p className="text-black/50 text-sm">{project.desc}</p>
                 </a>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Services */}
-        <section id="services" className="py-24 bg-gradient-to-b from-transparent via-purple-500/[0.03] to-transparent">
-          <div className="container mx-auto px-6">
+        {/* Pricing */}
+        <section id="pricing" className="py-32 px-6">
+          <div className="max-w-5xl mx-auto">
             <div className="text-center mb-16">
-              <span className="text-sm font-medium text-cyan-400 tracking-wider uppercase">Services</span>
-              <h2 className="text-4xl md:text-5xl font-black mt-4">Simple pricing. Real results.</h2>
+              <span className="text-sm font-medium text-[#ff6b35] tracking-wide uppercase">Pricing</span>
+              <h2 className="text-4xl md:text-5xl font-bold mt-4">No surprises.</h2>
+              <p className="text-black/50 mt-4 max-w-md mx-auto">Fixed prices. Clear scope. You know what you pay before we start.</p>
             </div>
             
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
                 { 
-                  title: 'Free Audit', 
-                  price: '$0', 
-                  desc: 'We analyze your site and show you exactly what needs fixing.',
-                  features: ['Full site scan', 'Speed test', 'Mobile check', 'SEO review'],
-                  cta: 'Get Started',
-                  featured: true
+                  title: 'Audit', 
+                  price: 'Free', 
+                  desc: 'Full analysis of your site',
+                  features: ['Speed test', 'Mobile check', 'SEO review', 'Action plan'],
+                  highlight: true,
                 },
                 { 
                   title: 'Quick Fix', 
                   price: '$199+', 
-                  desc: 'Small problems fixed fast. Pay per issue.',
-                  features: ['48hr turnaround', 'Broken links', 'Speed fixes', 'Bug repairs'],
-                  cta: 'Learn More',
-                  featured: false
+                  desc: 'Per-issue pricing',
+                  features: ['48hr turnaround', 'Bug fixes', 'Speed optimization', 'Content updates'],
+                  highlight: false,
                 },
                 { 
                   title: 'New Build', 
                   price: '$2,500+', 
-                  desc: 'Modern website built from scratch.',
-                  features: ['Custom design', 'Mobile-first', 'SEO ready', 'Fast hosting'],
-                  cta: 'Learn More',
-                  featured: false
+                  desc: 'Website from scratch',
+                  features: ['Custom design', 'Mobile-first', 'SEO ready', 'CMS included'],
+                  highlight: false,
                 },
                 { 
                   title: 'Monthly', 
                   price: '$149/mo', 
-                  desc: 'We handle everything. You relax.',
-                  features: ['Updates', 'Backups', 'Security', 'Priority support'],
-                  cta: 'Learn More',
-                  featured: false
+                  desc: 'Ongoing maintenance',
+                  features: ['Updates & fixes', 'Daily backups', 'Security monitoring', 'Priority support'],
+                  highlight: false,
                 },
-              ].map((service, i) => (
-                <div key={i} className={`relative p-6 rounded-3xl border transition-all hover:scale-[1.02] ${service.featured ? 'bg-gradient-to-br from-purple-500/10 to-cyan-500/10 border-purple-500/30' : 'bg-white/[0.02] border-white/[0.05] hover:border-white/10'}`}>
-                  {service.featured && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full text-xs font-bold">
-                      Most Popular
-                    </div>
+              ].map((plan, i) => (
+                <div 
+                  key={i} 
+                  className={`p-6 rounded-3xl transition-all ${
+                    plan.highlight 
+                      ? 'bg-black text-white' 
+                      : 'bg-white border border-black/5 hover:border-black/10'
+                  }`}
+                >
+                  {plan.highlight && (
+                    <span className="inline-block px-3 py-1 bg-[#ff6b35] text-white text-xs font-medium rounded-full mb-4">Start Here</span>
                   )}
-                  <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 mb-1">{service.price}</div>
-                  <h3 className="text-xl font-bold mb-2">{service.title}</h3>
-                  <p className="text-white/40 text-sm mb-6">{service.desc}</p>
-                  <ul className="space-y-2 mb-6">
-                    {service.features.map((f, j) => (
-                      <li key={j} className="flex items-center gap-2 text-sm text-white/60">
-                        <svg className="w-4 h-4 text-cyan-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <div className={`text-3xl font-bold mb-1 ${plan.highlight ? 'text-white' : 'text-black'}`}>{plan.price}</div>
+                  <div className={`font-medium mb-2 ${plan.highlight ? 'text-white' : 'text-black'}`}>{plan.title}</div>
+                  <p className={`text-sm mb-6 ${plan.highlight ? 'text-white/60' : 'text-black/50'}`}>{plan.desc}</p>
+                  <ul className="space-y-2">
+                    {plan.features.map((f, j) => (
+                      <li key={j} className={`flex items-center gap-2 text-sm ${plan.highlight ? 'text-white/80' : 'text-black/60'}`}>
+                        <svg className={`w-4 h-4 flex-shrink-0 ${plan.highlight ? 'text-[#ff6b35]' : 'text-[#ff6b35]'}`} fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
                         {f}
                       </li>
                     ))}
                   </ul>
-                  <a href="#contact" className={`block text-center py-3 rounded-xl font-semibold transition-all ${service.featured ? 'bg-gradient-to-r from-purple-500 to-cyan-500 hover:opacity-90' : 'bg-white/5 hover:bg-white/10'}`}>
-                    {service.cta}
-                  </a>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* CTA / Contact */}
-        <section id="contact" className="py-24">
-          <div className="container mx-auto px-6">
-            <div className="max-w-2xl mx-auto">
-              <div className="relative p-8 md:p-12 rounded-[2rem] overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-pink-500/10 to-cyan-500/20" />
-                <div className="absolute inset-[1px] bg-[#0A0A0A] rounded-[calc(2rem-1px)]" />
-                
-                <div className="relative">
-                  <div className="text-center mb-10">
-                    <h2 className="text-3xl md:text-4xl font-black mb-4">Get your free audit</h2>
-                    <p className="text-white/50">Enter your website and we will send you a full report within 24 hours.</p>
-                  </div>
-                  
-                  {submitted ? (
-                    <div className="text-center py-8">
-                      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 mb-4">
-                        <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                      </div>
-                      <h3 className="text-2xl font-bold mb-2">Request received!</h3>
-                      <p className="text-white/50">We will be in touch within 24 hours.</p>
-                    </div>
-                  ) : (
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                      <div>
-                        <input
-                          type="url"
-                          required
-                          placeholder="Your website URL"
-                          value={website}
-                          onChange={(e) => setWebsite(e.target.value)}
-                          className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-purple-500/50 transition-colors placeholder:text-white/30"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="email"
-                          required
-                          placeholder="Your email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-purple-500/50 transition-colors placeholder:text-white/30"
-                        />
-                      </div>
-                      <button 
-                        type="submit" 
-                        disabled={submitting}
-                        className="w-full py-4 bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 font-bold rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        {submitting ? 'Sending...' : 'Send Me My Free Audit →'}
-                      </button>
-                      <p className="text-center text-white/30 text-sm">No spam. No obligations. Just insights.</p>
-                    </form>
-                  )}
-                </div>
-              </div>
+        {/* Contact */}
+        <section id="contact" className="py-32 px-6 bg-white">
+          <div className="max-w-xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl md:text-5xl font-bold">Get your free audit.</h2>
+              <p className="text-black/50 mt-4">Drop your URL. We will send a full report within 24 hours.</p>
             </div>
+            
+            {submitted ? (
+              <div className="text-center py-12">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 mb-6">
+                  <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-bold mb-2">You are in!</h3>
+                <p className="text-black/50">Check your inbox in the next 24 hours.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <input
+                  type="url"
+                  required
+                  placeholder="https://yourwebsite.com"
+                  value={website}
+                  onChange={(e) => setWebsite(e.target.value)}
+                  className="w-full px-6 py-4 bg-[#fafafa] border border-black/10 rounded-2xl focus:outline-none focus:border-[#ff6b35] focus:ring-2 focus:ring-[#ff6b35]/10 transition-all"
+                />
+                <input
+                  type="email"
+                  required
+                  placeholder="you@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-6 py-4 bg-[#fafafa] border border-black/10 rounded-2xl focus:outline-none focus:border-[#ff6b35] focus:ring-2 focus:ring-[#ff6b35]/10 transition-all"
+                />
+                <button 
+                  type="submit"
+                  disabled={submitting}
+                  className="w-full py-4 bg-black text-white font-semibold rounded-2xl hover:bg-black/80 transition-colors disabled:opacity-50"
+                >
+                  {submitting ? 'Sending...' : 'Send My Free Audit'}
+                </button>
+                <p className="text-center text-black/30 text-sm">No spam. No sales calls. Just a report.</p>
+              </form>
+            )}
           </div>
         </section>
 
         {/* Footer */}
-        <footer className="py-12 border-t border-white/[0.05]">
-          <div className="container mx-auto px-6">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-              <div className="flex items-center gap-3">
-                <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center">
-                  <span className="font-black text-sm">V</span>
-                </div>
-                <span className="font-bold">vera</span>
+        <footer className="py-12 px-6 border-t border-black/5">
+          <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded-md bg-gradient-to-br from-[#ff6b35] to-[#ff8f65] flex items-center justify-center">
+                <span className="text-white font-bold text-xs">V</span>
               </div>
-              <p className="text-white/30 text-sm">© 2026 Vera. Making websites work.</p>
-              <a href="https://mail.google.com/mail/?view=cm&to=hello@tryvera.dev" className="text-white/50 hover:text-white transition-colors">hello@tryvera.dev</a>
+              <span className="font-medium text-sm">vera</span>
             </div>
+            <p className="text-black/30 text-sm">© 2026 Vera. Websites that work.</p>
+            <a href="mailto:hello@tryvera.dev" className="text-black/50 hover:text-black text-sm transition-colors">hello@tryvera.dev</a>
           </div>
         </footer>
       </div>
+      
+      <style jsx>{`
+        @keyframes draw {
+          from { stroke-dashoffset: 200; }
+          to { stroke-dashoffset: 0; }
+        }
+        .animate-draw {
+          stroke-dasharray: 200;
+          stroke-dashoffset: 200;
+          animation: draw 1s ease-out 0.5s forwards;
+        }
+      `}</style>
     </main>
   );
 }
