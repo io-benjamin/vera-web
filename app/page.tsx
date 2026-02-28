@@ -355,9 +355,9 @@ export default function Home() {
                 },
                 {
                   title: 'New Website',
-                  price: '$2,500+',
+                  price: 'Custom',
                   desc: 'Built to convert',
-                  features: ['Custom design', 'Mobile-first', 'SEO optimized', '3-week delivery'],
+                  features: ['Custom design', 'Mobile-first', 'SEO optimized', 'Fast turnaround'],
                   cta: 'Get Quote',
                   highlighted: false,
                 },
