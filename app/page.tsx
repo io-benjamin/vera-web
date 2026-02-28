@@ -96,7 +96,7 @@ export default function Home() {
     try {
       await submitAuditRequest({ email, website });
       setSubmitted(true);
-    } catch (err) {
+    } catch {
       window.open(`https://mail.google.com/mail/?view=cm&to=hello@tryvera.dev&su=${encodeURIComponent('Free Website Audit Request')}&body=${encodeURIComponent(`Website: ${website}\n\nEmail: ${email}`)}`, '_blank');
       setSubmitted(true);
     } finally {

@@ -63,7 +63,7 @@ export interface MobileCheck {
 }
 
 export async function runAudit(url: string): Promise<AuditResult> {
-  const startTime = Date.now();
+  // Track audit start
   const issues: AuditIssue[] = [];
   
   // Normalize URL
@@ -88,7 +88,7 @@ export async function runAudit(url: string): Promise<AuditResult> {
     headers = response.headers;
     html = await response.text();
     sizeKb = Math.round(new Blob([html]).size / 1024);
-  } catch (error) {
+  } catch {
     issues.push({
       severity: 'critical',
       category: 'Accessibility',
