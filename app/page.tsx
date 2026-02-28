@@ -324,32 +324,40 @@ export default function Home() {
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-16">
               <span className="text-sm font-medium text-emerald-400">Pricing</span>
-              <h2 className="text-4xl md:text-5xl font-bold mt-4">Fix it yourself, or we fix it.</h2>
+              <h2 className="text-4xl md:text-5xl font-bold mt-4">Simple pricing. No surprises.</h2>
             </div>
             
-            <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
               {[
                 {
-                  title: 'AI Audit',
-                  price: 'Free',
-                  desc: 'See what\'s broken',
-                  features: ['Full site scan', 'Prioritized issues', 'Fix instructions', 'PDF report'],
-                  cta: 'Get Free Audit',
-                  highlighted: true,
-                },
-                {
-                  title: 'We Fix It',
-                  price: '$199+',
-                  desc: 'Per issue',
-                  features: ['48hr turnaround', 'Done for you', 'Tested & verified', 'Support included'],
-                  cta: 'Get Quote',
+                  title: 'Free Audit',
+                  price: '$0',
+                  desc: 'See what\'s hurting you',
+                  features: ['Full site scan', 'Problem breakdown', 'Priority ranking', 'No commitment'],
+                  cta: 'Get Your Audit',
                   highlighted: false,
                 },
                 {
-                  title: 'Full Rebuild',
+                  title: 'One-Time Fix',
+                  price: '$199+',
+                  desc: 'We fix, you relax',
+                  features: ['48hr turnaround', 'Any issue fixed', 'Tested & verified', '30-day guarantee'],
+                  cta: 'Get Started',
+                  highlighted: false,
+                },
+                {
+                  title: 'Monthly Care',
+                  price: '$149/mo',
+                  desc: 'Never worry again',
+                  features: ['Unlimited fixes', 'Daily backups', '24/7 monitoring', 'Priority support'],
+                  cta: 'Start Today',
+                  highlighted: true,
+                },
+                {
+                  title: 'New Website',
                   price: '$2,500+',
-                  desc: 'New website',
-                  features: ['Custom design', 'Mobile-first', 'SEO optimized', 'Fast hosting'],
+                  desc: 'Built to convert',
+                  features: ['Custom design', 'Mobile-first', 'SEO optimized', '3-week delivery'],
                   cta: 'Get Quote',
                   highlighted: false,
                 },
