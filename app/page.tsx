@@ -1,6 +1,32 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+
+// Hook for scroll-triggered animations
+function useScrollReveal() {
+  const ref = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, isVisible };
+}
 
 const buildSteps = [
   'Designing your homepage...',
@@ -10,6 +36,20 @@ const buildSteps = [
   'Connecting your domain',
   'Going live! 🚀',
 ];
+
+// Reveal wrapper component
+function RevealSection({ children, className = '', delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  const { ref, isVisible } = useScrollReveal();
+  return (
+    <section
+      ref={ref as React.RefObject<HTMLElement>}
+      className={`${className} transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </section>
+  );
+}
 
 export default function Home() {
   const [name, setName] = useState('');
@@ -192,8 +232,8 @@ export default function Home() {
         </section>
 
         {/* How it works */}
-        <section id="how" className="py-32 px-6">
-          <div className="max-w-5xl mx-auto">
+        <RevealSection className="py-32 px-6" delay={0}>
+          <div id="how" className="max-w-5xl mx-auto">
             <div className="text-center mb-16">
               <span className="text-sm font-medium text-emerald-400">How It Works</span>
               <h2 className="text-4xl md:text-5xl font-bold mt-4">Simple. Fast. Done.</h2>
@@ -231,10 +271,10 @@ export default function Home() {
               ))}
             </div>
           </div>
-        </section>
+        </RevealSection>
 
         {/* What's included */}
-        <section className="py-32 px-6 bg-gradient-to-b from-transparent via-emerald-500/[0.02] to-transparent">
+        <RevealSection className="py-32 px-6 bg-gradient-to-b from-transparent via-emerald-500/[0.02] to-transparent">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-16">
               <span className="text-sm font-medium text-emerald-400">What You Get</span>
@@ -259,11 +299,11 @@ export default function Home() {
               ))}
             </div>
           </div>
-        </section>
+        </RevealSection>
 
         {/* Sample work */}
-        <section id="work" className="py-32 px-6">
-          <div className="max-w-5xl mx-auto">
+        <RevealSection className="py-32 px-6">
+          <div id="work" className="max-w-5xl mx-auto">
             <div className="text-center mb-16">
               <span className="text-sm font-medium text-emerald-400">Our Work</span>
               <h2 className="text-4xl md:text-5xl font-bold mt-4">Sites we've built.</h2>
@@ -303,11 +343,11 @@ export default function Home() {
               ))}
             </div>
           </div>
-        </section>
+        </RevealSection>
 
         {/* Pricing */}
-        <section id="pricing" className="py-32 px-6">
-          <div className="max-w-5xl mx-auto">
+        <RevealSection className="py-32 px-6">
+          <div id="pricing" className="max-w-5xl mx-auto">
             <div className="text-center mb-16">
               <span className="text-sm font-medium text-emerald-400">Pricing</span>
               <h2 className="text-4xl md:text-5xl font-bold mt-4">Fair prices. Real value.</h2>
@@ -379,11 +419,11 @@ export default function Home() {
               ))}
             </div>
           </div>
-        </section>
+        </RevealSection>
 
         {/* Contact Form */}
-        <section id="contact" className="py-32 px-6">
-          <div className="max-w-xl mx-auto text-center">
+        <RevealSection className="py-32 px-6">
+          <div id="contact" className="max-w-xl mx-auto text-center">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl mb-8">
               <span className="text-3xl">👋</span>
             </div>
@@ -442,7 +482,7 @@ export default function Home() {
               </form>
             )}
           </div>
-        </section>
+        </RevealSection>
 
         {/* Footer */}
         <footer className="py-8 px-6 border-t border-white/5">
