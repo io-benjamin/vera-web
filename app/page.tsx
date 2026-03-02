@@ -15,7 +15,7 @@ function useScrollReveal() {
           observer.disconnect();
         }
       },
-      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+      { threshold: 0.15, rootMargin: '0px 0px -100px 0px' }
     );
 
     if (ref.current) {
@@ -43,7 +43,7 @@ function RevealSection({ children, className = '', delay = 0 }: { children: Reac
   return (
     <section
       ref={ref as React.RefObject<HTMLElement>}
-      className={`${className} transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+      className={`${className} transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-20 scale-[0.97]'}`}
       style={{ transitionDelay: `${delay}ms` }}
     >
       {children}
