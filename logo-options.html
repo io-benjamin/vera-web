@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vera Logo Options</title>
+  <style>
+    body {
+      background: #0a0a0a;
+      color: white;
+      font-family: system-ui, -apple-system, sans-serif;
+      padding: 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+    }
+    .option {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 16px;
+      padding: 40px;
+      text-align: center;
+    }
+    .option h3 {
+      margin-top: 24px;
+      color: #10b981;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .option p {
+      color: #666;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    svg {
+      filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.3));
+    }
+    .sizes {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      align-items: flex-end;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #222;
+    }
+    .sizes svg {
+      filter: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Option 1: Abstract V with negative space -->
+  <div class="option">
+    <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+      <rect width="120" height="120" rx="24" fill="#10b981"/>
+      <path d="M35 35L60 85L85 35" stroke="#0a0a0a" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <h3>Option 1: Bold V</h3>
+    <p>Clean, confident, instantly readable</p>
+    <div class="sizes">
+      <svg width="64" height="64" viewBox="0 0 120 120" fill="none">
+        <rect width="120" height="120" rx="24" fill="#10b981"/>
+        <path d="M35 35L60 85L85 35" stroke="#0a0a0a" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <svg width="32" height="32" viewBox="0 0 120 120" fill="none">
+        <rect width="120" height="120" rx="24" fill="#10b981"/>
+        <path d="M35 35L60 85L85 35" stroke="#0a0a0a" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <svg width="16" height="16" viewBox="0 0 120 120" fill="none">
+        <rect width="120" height="120" rx="24" fill="#10b981"/>
+        <path d="M35 35L60 85L85 35" stroke="#0a0a0a" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Option 2: Layered geometric -->
+  <div class="option">
+    <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+      <rect width="120" height="120" rx="24" fill="#0a0a0a"/>
+      <path d="M30 40L60 90L90 40" stroke="#10b981" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M40 30L60 65L80 30" stroke="#22d3ee" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+    </svg>
+    <h3>Option 2: Layered</h3>
+    <p>Depth and dimension, emerald + cyan</p>
+    <div class="sizes">
+      <svg width="64" height="64" viewBox="0 0 120 120" fill="none">
+        <rect width="120" height="120" rx="24" fill="#0a0a0a"/>
+        <path d="M30 40L60 90L90 40" stroke="#10b981" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M40 30L60 65L80 30" stroke="#22d3ee" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+      </svg>
+      <svg width="32" height="32" viewBox="0 0 120 120" fill="none">
+        <rect width="120" height="120" rx="24" fill="#0a0a0a"/>
+        <path d="M30 40L60 90L90 40" stroke="#10b981" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M40 30L60 65L80 30" stroke="#22d3ee" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+      </svg>
+      <svg width="16" height="16" viewBox="0 0 120 120" fill="none">
+        <rect width="120" height="120" rx="24" fill="#0a0a0a"/>
+        <path d="M30 40L60 90L90 40" stroke="#10b981" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Option 3: Gradient filled -->
+  <div class="option">
+    <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+      <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#10b981"/>
+          <stop offset="100%" style="stop-color:#22d3ee"/>
+        </linearGradient>
+      </defs>
+      <rect width="120" height="120" rx="24" fill="url(#grad1)"/>
+      <path d="M35 38L60 82L85 38" stroke="#0a0a0a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="60" cy="82" r="6" fill="#0a0a0a"/>
+    </svg>
+    <h3>Option 3: Gradient + Dot</h3>
+    <p>Dynamic gradient, anchored by dot</p>
+    <div class="sizes">
+      <svg width="64" height="64" viewBox="0 0 120 120" fill="none">
+        <defs>
+          <linearGradient id="grad1b" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#10b981"/>
+            <stop offset="100%" style="stop-color:#22d3ee"/>
+          </linearGradient>
+        </defs>
+        <rect width="120" height="120" rx="24" fill="url(#grad1b)"/>
+        <path d="M35 38L60 82L85 38" stroke="#0a0a0a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="60" cy="82" r="6" fill="#0a0a0a"/>
+      </svg>
+      <svg width="32" height="32" viewBox="0 0 120 120" fill="none">
+        <defs>
+          <linearGradient id="grad1c" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#10b981"/>
+            <stop offset="100%" style="stop-color:#22d3ee"/>
+          </linearGradient>
+        </defs>
+        <rect width="120" height="120" rx="24" fill="url(#grad1c)"/>
+        <path d="M35 38L60 82L85 38" stroke="#0a0a0a" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="60" cy="82" r="8" fill="#0a0a0a"/>
+      </svg>
+      <svg width="16" height="16" viewBox="0 0 120 120" fill="none">
+        <defs>
+          <linearGradient id="grad1d" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#10b981"/>
+            <stop offset="100%" style="stop-color:#22d3ee"/>
+          </linearGradient>
+        </defs>
+        <rect width="120" height="120" rx="24" fill="url(#grad1d)"/>
+        <path d="M35 38L60 82L85 38" stroke="#0a0a0a" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Option 4: Abstract arrow/check -->
+  <div class="option">
+    <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+      <rect width="120" height="120" rx="24" fill="#10b981"/>
+      <path d="M30 55L55 80L90 35" stroke="#0a0a0a" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <h3>Option 4: Check/Arrow</h3>
+    <p>V as verification, trust, "done"</p>
+    <div class="sizes">
+      <svg width="64" height="64" viewBox="0 0 120 120" fill="none">
+        <rect width="120" height="120" rx="24" fill="#10b981"/>
+        <path d="M30 55L55 80L90 35" stroke="#0a0a0a" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <svg width="32" height="32" viewBox="0 0 120 120" fill="none">
+        <rect width="120" height="120" rx="24" fill="#10b981"/>
+        <path d="M30 55L55 80L90 35" stroke="#0a0a0a" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <svg width="16" height="16" viewBox="0 0 120 120" fill="none">
+        <rect width="120" height="120" rx="24" fill="#10b981"/>
+        <path d="M30 55L55 80L90 35" stroke="#0a0a0a" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Option 5: Minimal outline -->
+  <div class="option">
+    <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+      <rect x="4" y="4" width="112" height="112" rx="22" stroke="#10b981" stroke-width="4" fill="none"/>
+      <path d="M38 40L60 80L82 40" stroke="#10b981" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <h3>Option 5: Outline</h3>
+    <p>Light, airy, modern minimal</p>
+    <div class="sizes">
+      <svg width="64" height="64" viewBox="0 0 120 120" fill="none">
+        <rect x="4" y="4" width="112" height="112" rx="22" stroke="#10b981" stroke-width="4" fill="none"/>
+        <path d="M38 40L60 80L82 40" stroke="#10b981" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <svg width="32" height="32" viewBox="0 0 120 120" fill="none">
+        <rect x="4" y="4" width="112" height="112" rx="22" stroke="#10b981" stroke-width="6" fill="none"/>
+        <path d="M38 40L60 80L82 40" stroke="#10b981" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <svg width="16" height="16" viewBox="0 0 120 120" fill="none">
+        <rect x="4" y="4" width="112" height="112" rx="22" stroke="#10b981" stroke-width="8" fill="none"/>
+        <path d="M38 40L60 80L82 40" stroke="#10b981" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Option 6: Stacked blocks -->
+  <div class="option">
+    <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+      <rect width="120" height="120" rx="24" fill="#10b981"/>
+      <rect x="30" y="30" width="25" height="60" rx="4" fill="#0a0a0a"/>
+      <rect x="65" y="30" width="25" height="60" rx="4" fill="#0a0a0a" transform="rotate(0 65 30)"/>
+      <rect x="47.5" y="60" width="25" height="35" rx="4" fill="#0a0a0a"/>
+    </svg>
+    <h3>Option 6: Blocks</h3>
+    <p>Building blocks, construction</p>
+    <div class="sizes">
+      <svg width="64" height="64" viewBox="0 0 120 120" fill="none">
+        <rect width="120" height="120" rx="24" fill="#10b981"/>
+        <rect x="30" y="30" width="25" height="60" rx="4" fill="#0a0a0a"/>
+        <rect x="65" y="30" width="25" height="60" rx="4" fill="#0a0a0a"/>
+        <rect x="47.5" y="60" width="25" height="35" rx="4" fill="#0a0a0a"/>
+      </svg>
+      <svg width="32" height="32" viewBox="0 0 120 120" fill="none">
+        <rect width="120" height="120" rx="24" fill="#10b981"/>
+        <rect x="30" y="30" width="25" height="60" rx="6" fill="#0a0a0a"/>
+        <rect x="65" y="30" width="25" height="60" rx="6" fill="#0a0a0a"/>
+        <rect x="47.5" y="60" width="25" height="35" rx="6" fill="#0a0a0a"/>
+      </svg>
+      <svg width="16" height="16" viewBox="0 0 120 120" fill="none">
+        <rect width="120" height="120" rx="24" fill="#10b981"/>
+        <rect x="28" y="28" width="28" height="64" rx="8" fill="#0a0a0a"/>
+        <rect x="64" y="28" width="28" height="64" rx="8" fill="#0a0a0a"/>
+      </svg>
+    </div>
+  </div>
+
+</body>
+</html>
