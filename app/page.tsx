@@ -34,8 +34,88 @@ const buildSteps = [
   'Setting up contact forms',
   'Optimizing for search engines',
   'Connecting your domain',
-  'Going live! 🚀',
+  'Going live!',
 ];
+
+// SVG Icons
+const Icons = {
+  chat: (
+    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+    </svg>
+  ),
+  build: (
+    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+    </svg>
+  ),
+  rocket: (
+    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+    </svg>
+  ),
+  palette: (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.098 19.902a3.75 3.75 0 005.304 0l6.401-6.402M6.75 21A3.75 3.75 0 013 17.25V4.125C3 3.504 3.504 3 4.125 3h5.25c.621 0 1.125.504 1.125 1.125v4.072M6.75 21a3.75 3.75 0 003.75-3.75V8.197M6.75 21h13.125c.621 0 1.125-.504 1.125-1.125v-5.25c0-.621-.504-1.125-1.125-1.125h-4.072M10.5 8.197l2.88-2.88c.438-.439 1.15-.439 1.59 0l3.712 3.713c.44.44.44 1.152 0 1.59l-2.879 2.88M6.75 17.25h.008v.008H6.75v-.008z" />
+    </svg>
+  ),
+  mobile: (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+    </svg>
+  ),
+  bolt: (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+    </svg>
+  ),
+  search: (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+    </svg>
+  ),
+  form: (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z" />
+    </svg>
+  ),
+  link: (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+    </svg>
+  ),
+  lock: (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+    </svg>
+  ),
+  pencil: (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+    </svg>
+  ),
+  sparkles: (
+    <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+    </svg>
+  ),
+  hand: (
+    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.05 4.575a1.575 1.575 0 10-3.15 0v3m3.15-3v-1.5a1.575 1.575 0 013.15 0v1.5m-3.15 0l.075 5.925m3.075.75V4.575m0 0a1.575 1.575 0 013.15 0V15M6.9 7.575a1.575 1.575 0 10-3.15 0v8.175a6.75 6.75 0 006.75 6.75h2.018a5.25 5.25 0 003.712-1.538l1.732-1.732a5.25 5.25 0 001.538-3.712l.003-2.024a.668.668 0 01.198-.471 1.575 1.575 0 10-2.228-2.228 3.818 3.818 0 00-1.12 2.687M6.9 7.575V12m6.27 4.318A4.49 4.49 0 0116.35 15" />
+    </svg>
+  ),
+  check: (
+    <svg className="w-12 h-12 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  ),
+  externalLink: (
+    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+    </svg>
+  ),
+};
 
 // Reveal wrapper component
 function RevealSection({ children, className = '', delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
@@ -79,6 +159,100 @@ export default function Home() {
     setSubmitted(true);
   };
 
+  const howItWorks = [
+    {
+      num: '01',
+      title: 'Tell us about your business',
+      desc: 'Quick chat or form. We learn what you need and what makes you different.',
+      icon: Icons.chat,
+    },
+    {
+      num: '02', 
+      title: 'We build it',
+      desc: 'Professional design, mobile-ready, fast loading. Usually 2-5 days.',
+      icon: Icons.build,
+    },
+    {
+      num: '03',
+      title: 'You approve, we launch',
+      desc: 'Review it. Request tweaks. Once you love it, we go live.',
+      icon: Icons.rocket,
+    },
+  ];
+
+  const features = [
+    { label: 'Custom Design', icon: Icons.palette },
+    { label: 'Mobile Ready', icon: Icons.mobile },
+    { label: 'Fast Loading', icon: Icons.bolt },
+    { label: 'SEO Optimized', icon: Icons.search },
+    { label: 'Contact Forms', icon: Icons.form },
+    { label: 'Social Links', icon: Icons.link },
+    { label: 'SSL Security', icon: Icons.lock },
+    { label: 'Easy Updates', icon: Icons.pencil },
+  ];
+
+  const projects = [
+    {
+      name: 'Nimpro',
+      type: 'Services',
+      desc: 'Professional services website with clean, modern branding.',
+      url: 'https://nimpro.com',
+      color: 'from-blue-500/20 to-indigo-500/20',
+      hoverColor: 'hover:border-blue-500/50',
+    },
+    {
+      name: 'RVA Tacontigo',
+      type: 'Restaurant',
+      desc: 'Modern taqueria with online ordering and catering info.',
+      url: 'https://rvatacontigo.com',
+      color: 'from-orange-500/20 to-yellow-500/20',
+      hoverColor: 'hover:border-orange-500/50',
+    },
+    {
+      name: 'Financially Cooked',
+      type: 'Web App',
+      desc: 'Viral financial calculator with 1,100+ submissions.',
+      url: 'https://financiallycooked.com',
+      color: 'from-red-500/20 to-orange-500/20',
+      hoverColor: 'hover:border-red-500/50',
+    },
+    {
+      name: 'Your Business',
+      type: 'Could be next',
+      desc: 'Ready to stand out? Let\'s build something great.',
+      color: 'from-emerald-500/20 to-cyan-500/20',
+      hoverColor: 'hover:border-emerald-500/50',
+      cta: true,
+    },
+  ];
+
+  const pricing = [
+    {
+      title: 'Starter',
+      price: '$499',
+      desc: 'Perfect for getting started',
+      features: ['1-3 page website', 'Mobile responsive', 'Contact form', 'Basic SEO', '2 revisions'],
+      cta: 'Get Started',
+      highlighted: false,
+    },
+    {
+      title: 'Business',
+      price: '$999',
+      desc: 'Most popular choice',
+      features: ['5-7 page website', 'Custom design', 'Advanced SEO', 'Social integration', 'Unlimited revisions', 'Priority support'],
+      cta: 'Get Started',
+      highlighted: true,
+    },
+    {
+      title: 'Custom',
+      price: 'Let\'s talk',
+      desc: 'Complex needs? We got you',
+      features: ['E-commerce', 'Booking systems', 'Custom features', 'Ongoing support', 'Whatever you need'],
+      cta: 'Contact Us',
+      highlighted: false,
+    },
+  ];
+
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white overflow-hidden">
       {/* Scan lines overlay */}
@@ -105,20 +279,20 @@ export default function Home() {
           <div className="max-w-6xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-emerald-500/50 blur-lg" />
-                  <div className="relative w-10 h-10 bg-emerald-500 rounded-lg flex items-center justify-center font-mono font-bold text-black">
+                <div className="relative group">
+                  <div className="absolute inset-0 bg-emerald-500/50 blur-lg transition-all duration-500 group-hover:bg-cyan-500/50" />
+                  <div className="relative w-10 h-10 bg-emerald-500 rounded-lg flex items-center justify-center font-mono font-bold text-black transition-colors duration-500 group-hover:bg-cyan-400">
                     V
                   </div>
                 </div>
                 <span className="font-semibold tracking-tight">vera</span>
               </div>
               <div className="hidden md:flex items-center gap-6">
-                <a href="#how" className="text-sm text-white/50 hover:text-white transition-colors">How it works</a>
-                <a href="#pricing" className="text-sm text-white/50 hover:text-white transition-colors">Pricing</a>
-                <a href="#work" className="text-sm text-white/50 hover:text-white transition-colors">Our work</a>
+                <a href="#how" className="text-sm text-white/50 hover:text-emerald-400 transition-colors duration-300">How it works</a>
+                <a href="#pricing" className="text-sm text-white/50 hover:text-emerald-400 transition-colors duration-300">Pricing</a>
+                <a href="#work" className="text-sm text-white/50 hover:text-emerald-400 transition-colors duration-300">Our work</a>
               </div>
-              <a href="#contact" className="px-5 py-2.5 bg-emerald-500 text-black text-sm font-semibold rounded-lg hover:bg-emerald-400 transition-colors">
+              <a href="#contact" className="px-5 py-2.5 bg-emerald-500 text-black text-sm font-semibold rounded-lg hover:bg-cyan-400 transition-colors duration-300">
                 Get Started
               </a>
             </div>
@@ -139,7 +313,7 @@ export default function Home() {
                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] mb-6">
                   A website that
                   <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-cyan-400 to-emerald-400 bg-[length:200%_auto] animate-gradient">
                     works for you.
                   </span>
                 </h1>
@@ -149,29 +323,29 @@ export default function Home() {
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <a href="#contact" className="inline-flex items-center justify-center gap-2 px-6 py-4 bg-emerald-500 text-black font-semibold rounded-xl hover:bg-emerald-400 transition-all group">
+                  <a href="#contact" className="inline-flex items-center justify-center gap-2 px-6 py-4 bg-emerald-500 text-black font-semibold rounded-xl hover:bg-cyan-400 transition-all duration-300 group">
                     Get a Free Quote
                     <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                   </a>
-                  <a href="#work" className="inline-flex items-center justify-center gap-2 px-6 py-4 border border-white/10 text-white/70 font-medium rounded-xl hover:bg-white/5 transition-colors">
+                  <a href="#work" className="inline-flex items-center justify-center gap-2 px-6 py-4 border border-white/10 text-white/70 font-medium rounded-xl hover:bg-white/5 hover:border-emerald-500/30 transition-all duration-300">
                     See our work
                   </a>
                 </div>
                 
                 {/* Trust badges */}
                 <div className="flex items-center gap-6 mt-10 pt-8 border-t border-white/5">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-emerald-400">48hr</div>
+                  <div className="text-center group">
+                    <div className="text-2xl font-bold text-emerald-400 transition-colors duration-300 group-hover:text-cyan-400">48hr</div>
                     <div className="text-xs text-white/40">Avg turnaround</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-emerald-400">100%</div>
+                  <div className="text-center group">
+                    <div className="text-2xl font-bold text-emerald-400 transition-colors duration-300 group-hover:text-cyan-400">100%</div>
                     <div className="text-xs text-white/40">Satisfaction</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-emerald-400">$0</div>
+                  <div className="text-center group">
+                    <div className="text-2xl font-bold text-emerald-400 transition-colors duration-300 group-hover:text-cyan-400">$0</div>
                     <div className="text-xs text-white/40">Until you love it</div>
                   </div>
                 </div>
@@ -179,12 +353,12 @@ export default function Home() {
               
               {/* Right - Animated Preview */}
               <div className={`transition-all duration-700 delay-400 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                <div className="relative">
+                <div className="relative group">
                   {/* Glow effect */}
-                  <div className="absolute -inset-4 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-3xl blur-2xl opacity-50" />
+                  <div className="absolute -inset-4 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-3xl blur-2xl opacity-50 transition-all duration-500 group-hover:opacity-75 group-hover:from-cyan-500/20 group-hover:to-emerald-500/20" />
                   
                   {/* Browser window */}
-                  <div className="relative bg-[#111] border border-white/10 rounded-2xl overflow-hidden">
+                  <div className="relative bg-[#111] border border-white/10 rounded-2xl overflow-hidden transition-colors duration-300 group-hover:border-emerald-500/20">
                     {/* Browser header */}
                     <div className="flex items-center gap-2 px-4 py-3 bg-white/5 border-b border-white/5">
                       <div className="flex gap-1.5">
@@ -212,13 +386,13 @@ export default function Home() {
                           <div className="text-emerald-400 font-medium mb-2">{buildSteps[currentStep]}</div>
                           <div className="flex justify-center gap-1 mt-4">
                             {buildSteps.map((_, i) => (
-                              <div key={i} className={`w-2 h-2 rounded-full transition-colors ${i <= currentStep ? 'bg-emerald-400' : 'bg-white/10'}`} />
+                              <div key={i} className={`w-2 h-2 rounded-full transition-colors duration-300 ${i <= currentStep ? 'bg-emerald-400' : 'bg-white/10'}`} />
                             ))}
                           </div>
                         </div>
                       ) : (
                         <div className="text-center animate-fadeIn">
-                          <div className="text-5xl mb-4">✨</div>
+                          <div className="text-emerald-400 mb-4">{Icons.sparkles}</div>
                           <div className="text-2xl font-bold text-white mb-2">Your site is live!</div>
                           <div className="text-white/50 text-sm">Ready to bring in customers</div>
                         </div>
@@ -240,31 +414,12 @@ export default function Home() {
             </div>
             
             <div className="grid md:grid-cols-3 gap-8">
-              {[
-                {
-                  num: '01',
-                  title: 'Tell us about your business',
-                  desc: 'Quick chat or form. We learn what you need and what makes you different.',
-                  icon: '💬',
-                },
-                {
-                  num: '02', 
-                  title: 'We build it',
-                  desc: 'Professional design, mobile-ready, fast loading. Usually 2-5 days.',
-                  icon: '🛠️',
-                },
-                {
-                  num: '03',
-                  title: 'You approve, we launch',
-                  desc: 'Review it. Request tweaks. Once you love it, we go live.',
-                  icon: '🚀',
-                },
-              ].map((step, i) => (
-                <div key={i} className="relative p-8 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-emerald-500/30 transition-colors group">
-                  <span className="absolute -top-3 -left-3 w-8 h-8 bg-emerald-500 text-black text-xs font-bold rounded-lg flex items-center justify-center">
+              {howItWorks.map((step, i) => (
+                <div key={i} className="relative p-8 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-emerald-500/30 hover:bg-emerald-500/[0.02] transition-all duration-500 group">
+                  <span className="absolute -top-3 -left-3 w-8 h-8 bg-emerald-500 text-black text-xs font-bold rounded-lg flex items-center justify-center transition-colors duration-300 group-hover:bg-cyan-400">
                     {step.num}
                   </span>
-                  <span className="text-4xl mb-4 block">{step.icon}</span>
+                  <div className="text-emerald-400 mb-4 transition-colors duration-300 group-hover:text-cyan-400">{step.icon}</div>
                   <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
                   <p className="text-white/50">{step.desc}</p>
                 </div>
@@ -282,18 +437,9 @@ export default function Home() {
             </div>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[
-                { label: 'Custom Design', icon: '🎨' },
-                { label: 'Mobile Ready', icon: '📱' },
-                { label: 'Fast Loading', icon: '⚡' },
-                { label: 'SEO Optimized', icon: '🔍' },
-                { label: 'Contact Forms', icon: '📝' },
-                { label: 'Social Links', icon: '🔗' },
-                { label: 'SSL Security', icon: '🔒' },
-                { label: 'Easy Updates', icon: '✏️' },
-              ].map((item, i) => (
-                <div key={i} className="p-4 rounded-xl bg-white/[0.02] border border-white/5 text-center hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all">
-                  <span className="text-2xl mb-2 block">{item.icon}</span>
+              {features.map((item, i) => (
+                <div key={i} className="p-4 rounded-xl bg-white/[0.02] border border-white/5 text-center hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all duration-300 group">
+                  <div className="text-emerald-400 mb-2 flex justify-center transition-colors duration-300 group-hover:text-cyan-400">{item.icon}</div>
                   <span className="text-sm text-white/70">{item.label}</span>
                 </div>
               ))}
@@ -309,34 +455,22 @@ export default function Home() {
               <h2 className="text-4xl md:text-5xl font-bold mt-4">Sites we've built.</h2>
             </div>
             
-            <div className="grid md:grid-cols-2 gap-8">
-              {[
-                {
-                  name: 'Tacontigo',
-                  type: 'Restaurant',
-                  desc: 'Modern taqueria with online ordering and catering info.',
-                  color: 'from-orange-500/20 to-yellow-500/20',
-                },
-                {
-                  name: 'Your Business',
-                  type: 'Could be next',
-                  desc: 'Ready to stand out? Let\'s build something great.',
-                  color: 'from-emerald-500/20 to-cyan-500/20',
-                  cta: true,
-                },
-              ].map((project, i) => (
-                <div key={i} className={`relative p-8 rounded-2xl border transition-all ${project.cta ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-white/5 bg-white/[0.02]'}`}>
-                  <div className={`absolute inset-0 bg-gradient-to-br ${project.color} rounded-2xl opacity-50`} />
+            <div className="grid md:grid-cols-2 gap-6">
+              {projects.map((project, i) => (
+                <div key={i} className={`relative p-8 rounded-2xl border transition-all duration-500 ${project.cta ? 'border-emerald-500/30 bg-emerald-500/5' : `border-white/5 bg-white/[0.02] ${project.hoverColor}`}`}>
+                  <div className={`absolute inset-0 bg-gradient-to-br ${project.color} rounded-2xl opacity-50 transition-opacity duration-500 group-hover:opacity-75`} />
                   <div className="relative">
                     <div className="text-xs text-white/40 uppercase tracking-wider mb-2">{project.type}</div>
                     <h3 className="text-2xl font-bold mb-3">{project.name}</h3>
                     <p className="text-white/50 mb-4">{project.desc}</p>
                     {project.cta ? (
-                      <a href="#contact" className="inline-flex items-center gap-2 text-emerald-400 font-medium hover:text-emerald-300 transition-colors">
+                      <a href="#contact" className="inline-flex items-center gap-2 text-emerald-400 font-medium hover:text-cyan-400 transition-colors duration-300">
                         Get started <span>→</span>
                       </a>
                     ) : (
-                      <span className="text-emerald-400 text-sm">Live & thriving</span>
+                      <a href={project.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-emerald-400 font-medium hover:text-cyan-400 transition-colors duration-300">
+                        Visit site {Icons.externalLink}
+                      </a>
                     )}
                   </div>
                 </div>
@@ -355,36 +489,11 @@ export default function Home() {
             </div>
             
             <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-              {[
-                {
-                  title: 'Starter',
-                  price: '$499',
-                  desc: 'Perfect for getting started',
-                  features: ['1-3 page website', 'Mobile responsive', 'Contact form', 'Basic SEO', '2 revisions'],
-                  cta: 'Get Started',
-                  highlighted: false,
-                },
-                {
-                  title: 'Business',
-                  price: '$999',
-                  desc: 'Most popular choice',
-                  features: ['5-7 page website', 'Custom design', 'Advanced SEO', 'Social integration', 'Unlimited revisions', 'Priority support'],
-                  cta: 'Get Started',
-                  highlighted: true,
-                },
-                {
-                  title: 'Custom',
-                  price: 'Let\'s talk',
-                  desc: 'Complex needs? We got you',
-                  features: ['E-commerce', 'Booking systems', 'Custom features', 'Ongoing support', 'Whatever you need'],
-                  cta: 'Contact Us',
-                  highlighted: false,
-                },
-              ].map((plan, i) => (
-                <div key={i} className={`p-8 rounded-2xl border transition-all ${
+              {pricing.map((plan, i) => (
+                <div key={i} className={`p-8 rounded-2xl border transition-all duration-500 ${
                   plan.highlighted 
-                    ? 'bg-emerald-500 text-black border-emerald-400 scale-105' 
-                    : 'bg-white/[0.02] border-white/5 hover:border-white/10'
+                    ? 'bg-emerald-500 text-black border-emerald-400 scale-105 hover:bg-cyan-400' 
+                    : 'bg-white/[0.02] border-white/5 hover:border-emerald-500/30'
                 }`}>
                   {plan.highlighted && (
                     <div className="text-xs font-bold uppercase tracking-wider mb-4 text-black/60">Most Popular</div>
@@ -408,10 +517,10 @@ export default function Home() {
                       </li>
                     ))}
                   </ul>
-                  <a href="#contact" className={`block text-center py-3 rounded-xl font-semibold transition-all ${
+                  <a href="#contact" className={`block text-center py-3 rounded-xl font-semibold transition-all duration-300 ${
                     plan.highlighted 
                       ? 'bg-black text-white hover:bg-black/80' 
-                      : 'bg-white/5 hover:bg-white/10'
+                      : 'bg-white/5 hover:bg-emerald-500/10 hover:text-emerald-400'
                   }`}>
                     {plan.cta}
                   </a>
@@ -424,8 +533,8 @@ export default function Home() {
         {/* Contact Form */}
         <RevealSection className="py-32 px-6">
           <div id="contact" className="max-w-xl mx-auto text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl mb-8">
-              <span className="text-3xl">👋</span>
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl mb-8 text-emerald-400">
+              {Icons.hand}
             </div>
             
             <h2 className="text-4xl md:text-5xl font-bold mb-4">Let's build something.</h2>
@@ -433,7 +542,7 @@ export default function Home() {
             
             {submitted ? (
               <div className="p-8 rounded-2xl bg-emerald-500/10 border border-emerald-500/20">
-                <div className="text-emerald-400 text-5xl mb-4">✓</div>
+                <div className="flex justify-center mb-4">{Icons.check}</div>
                 <h3 className="text-2xl font-bold mb-2">Message sent!</h3>
                 <p className="text-white/50">We'll be in touch soon.</p>
               </div>
@@ -447,7 +556,7 @@ export default function Home() {
                     placeholder="John Smith"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-emerald-500 transition-colors placeholder:text-white/30"
+                    className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-emerald-500 transition-colors duration-300 placeholder:text-white/30"
                   />
                 </div>
                 <div>
@@ -458,7 +567,7 @@ export default function Home() {
                     placeholder="john@yourbusiness.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-emerald-500 transition-colors placeholder:text-white/30"
+                    className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-emerald-500 transition-colors duration-300 placeholder:text-white/30"
                   />
                 </div>
                 <div>
@@ -469,12 +578,12 @@ export default function Home() {
                     value={business}
                     onChange={(e) => setBusiness(e.target.value)}
                     rows={4}
-                    className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-emerald-500 transition-colors placeholder:text-white/30 resize-none"
+                    className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-emerald-500 transition-colors duration-300 placeholder:text-white/30 resize-none"
                   />
                 </div>
                 <button 
                   type="submit"
-                  className="w-full py-4 bg-emerald-500 text-black font-bold rounded-xl hover:bg-emerald-400 transition-colors"
+                  className="w-full py-4 bg-emerald-500 text-black font-bold rounded-xl hover:bg-cyan-400 transition-colors duration-300"
                 >
                   Get Your Free Quote →
                 </button>
@@ -487,12 +596,12 @@ export default function Home() {
         {/* Footer */}
         <footer className="py-8 px-6 border-t border-white/5">
           <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-emerald-500 rounded flex items-center justify-center font-mono text-black text-xs font-bold">V</div>
+            <div className="flex items-center gap-2 group">
+              <div className="w-6 h-6 bg-emerald-500 rounded flex items-center justify-center font-mono text-black text-xs font-bold transition-colors duration-300 group-hover:bg-cyan-400">V</div>
               <span className="font-medium text-sm">vera</span>
             </div>
             <p className="text-white/30 text-sm">© 2026 Vera. Websites for small business.</p>
-            <a href="mailto:hello@tryvera.dev" className="text-white/50 hover:text-white text-sm transition-colors">hello@tryvera.dev</a>
+            <a href="mailto:hello@tryvera.dev" className="text-white/50 hover:text-emerald-400 text-sm transition-colors duration-300">hello@tryvera.dev</a>
           </div>
         </footer>
       </div>
@@ -504,6 +613,14 @@ export default function Home() {
         }
         .animate-fadeIn {
           animation: fadeIn 0.5s ease-out forwards;
+        }
+        @keyframes gradient {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .animate-gradient {
+          animation: gradient 3s ease infinite;
         }
       `}</style>
     </main>
