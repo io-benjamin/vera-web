@@ -2,12 +2,16 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Vera | We Fix Websites",
-  description: "Your website is broken, slow, or doesn't exist. We fix that. Fast, modern sites that bring in customers—not scare them away.",
-  keywords: ["web design", "website repair", "web development", "fix website", "small business website"],
+  title: "Vera | Websites for Small Business",
+  description: "Professional websites for small businesses. Fast turnaround. Fair prices. No headaches.",
+  keywords: ["web design", "small business website", "web development", "professional website", "affordable website"],
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/logo.svg",
+  },
   openGraph: {
-    title: "Vera | We Fix Websites",
-    description: "Your website is broken, slow, or doesn't exist. We fix that.",
+    title: "Vera | Websites for Small Business",
+    description: "Professional websites for small businesses. Fast turnaround. Fair prices. No headaches.",
     type: "website",
     url: "https://tryvera.dev",
   },

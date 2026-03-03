@@ -281,9 +281,12 @@ export default function Home() {
               <div className="flex items-center gap-3">
                 <div className="relative group">
                   <div className="absolute inset-0 bg-emerald-500/50 blur-lg transition-all duration-500 group-hover:bg-cyan-500/50" />
-                  <div className="relative w-10 h-10 bg-emerald-500 rounded-lg flex items-center justify-center font-mono font-bold text-black transition-colors duration-500 group-hover:bg-cyan-400">
-                    V
-                  </div>
+                  <svg className="relative w-10 h-10" viewBox="0 0 120 120" fill="none">
+                    <rect width="120" height="120" rx="24" className="fill-emerald-500 transition-colors duration-500 group-hover:fill-cyan-400"/>
+                    <rect x="30" y="30" width="25" height="60" rx="4" fill="#0a0a0a"/>
+                    <rect x="65" y="30" width="25" height="60" rx="4" fill="#0a0a0a"/>
+                    <rect x="47.5" y="60" width="25" height="35" rx="4" fill="#0a0a0a"/>
+                  </svg>
                 </div>
                 <span className="font-semibold tracking-tight">vera</span>
               </div>
@@ -597,7 +600,11 @@ export default function Home() {
         <footer className="py-8 px-6 border-t border-white/5">
           <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2 group">
-              <div className="w-6 h-6 bg-emerald-500 rounded flex items-center justify-center font-mono text-black text-xs font-bold transition-colors duration-300 group-hover:bg-cyan-400">V</div>
+              <svg className="w-6 h-6" viewBox="0 0 120 120" fill="none">
+                <rect width="120" height="120" rx="24" className="fill-emerald-500 transition-colors duration-300 group-hover:fill-cyan-400"/>
+                <rect x="28" y="28" width="28" height="64" rx="8" fill="#0a0a0a"/>
+                <rect x="64" y="28" width="28" height="64" rx="8" fill="#0a0a0a"/>
+              </svg>
               <span className="font-medium text-sm">vera</span>
             </div>
             <p className="text-white/30 text-sm">© 2026 Vera. Websites for small business.</p>
