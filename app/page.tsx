@@ -303,9 +303,9 @@ export default function Home() {
         </nav>
 
         {/* Hero */}
-        <section className="min-h-[80vh] lg:min-h-screen flex items-center pt-24 pb-16 lg:pb-32 px-6">
+        <section className="min-h-screen flex items-center pt-24 pb-16 lg:pb-32 px-6">
           <div className="max-w-6xl mx-auto w-full">
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left - Copy */}
               <div className={`transition-all duration-700 delay-200 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full mb-6">
@@ -354,8 +354,8 @@ export default function Home() {
                 </div>
               </div>
               
-              {/* Right - Animated Preview (hidden on mobile) */}
-              <div className={`hidden lg:block transition-all duration-700 delay-400 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              {/* Right - Animated Preview (shows first on mobile) */}
+              <div className={`w-full transition-all duration-700 delay-400 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                 <div className="relative group">
                   {/* Glow effect */}
                   <div className="absolute -inset-4 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-3xl blur-2xl opacity-50 transition-all duration-500 group-hover:opacity-75 group-hover:from-cyan-500/20 group-hover:to-emerald-500/20" />
@@ -377,7 +377,7 @@ export default function Home() {
                     </div>
                     
                     {/* Preview content */}
-                    <div className="p-6 h-80 flex flex-col items-center justify-center">
+                    <div className="p-4 lg:p-6 h-52 lg:h-80 flex flex-col items-center justify-center">
                       {currentStep < buildSteps.length ? (
                         <div className="text-center">
                           <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-emerald-500/10 flex items-center justify-center">
