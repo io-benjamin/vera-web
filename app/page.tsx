@@ -196,7 +196,7 @@ export default function Home() {
       name: 'Nimpro',
       type: 'Services',
       desc: 'Professional services website with clean, modern branding.',
-      url: 'https://nimpro.com',
+      url: 'https://nimproelectrical.com',
       color: 'from-blue-500/20 to-indigo-500/20',
       hoverColor: 'hover:border-blue-500/50',
     },
