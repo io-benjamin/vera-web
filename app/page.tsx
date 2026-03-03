@@ -455,7 +455,7 @@ export default function Home() {
           <div id="work" className="max-w-5xl mx-auto">
             <div className="text-center mb-16">
               <span className="text-sm font-medium text-emerald-400">Our Work</span>
-              <h2 className="text-4xl md:text-5xl font-bold mt-4">Sites we've built.</h2>
+              <h2 className="text-4xl md:text-5xl font-bold mt-4">Sites we&apos;ve built.</h2>
             </div>
             
             <div className="grid md:grid-cols-2 gap-6">
@@ -488,7 +488,7 @@ export default function Home() {
             <div className="text-center mb-16">
               <span className="text-sm font-medium text-emerald-400">Pricing</span>
               <h2 className="text-4xl md:text-5xl font-bold mt-4">Fair prices. Real value.</h2>
-              <p className="text-white/50 mt-4 max-w-lg mx-auto">No hidden fees. No surprises. You don't pay until you're happy.</p>
+              <p className="text-white/50 mt-4 max-w-lg mx-auto">No hidden fees. No surprises. You don&apos;t pay until you&apos;re happy.</p>
             </div>
             
             <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
@@ -540,14 +540,14 @@ export default function Home() {
               {Icons.hand}
             </div>
             
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Let's build something.</h2>
-            <p className="text-white/50 mb-8">Tell us about your business. We'll get back to you within 24 hours.</p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Let&apos;s build something.</h2>
+            <p className="text-white/50 mb-8">Tell us about your business. We&apos;ll get back to you within 24 hours.</p>
             
             {submitted ? (
               <div className="p-8 rounded-2xl bg-emerald-500/10 border border-emerald-500/20">
                 <div className="flex justify-center mb-4">{Icons.check}</div>
                 <h3 className="text-2xl font-bold mb-2">Message sent!</h3>
-                <p className="text-white/50">We'll be in touch soon.</p>
+                <p className="text-white/50">We&apos;ll be in touch soon.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-3 text-left">
